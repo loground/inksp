@@ -19,9 +19,9 @@ export const Experience = ({ ...props }) => {
   return (
     <group {...props}>
       <CameraControls
-        minDistance={30.5}
-        maxDistance={35}
-        minPolarAngle={degToRad(80)}
+        minDistance={20}
+        maxDistance={70}
+        minPolarAngle={degToRad(-180)}
         maxPolarAngle={degToRad(80)}
       />
       {/* LIGHTS */}

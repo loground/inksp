@@ -123,5 +123,5 @@ export function Butthead(props) {
   );
 }
 
-useGLTF.preload('/models/beavisAndButthead/butt-head.glb');
-useFBX.preload('/models/beavisAndButthead/CheerSit.fbx');
+useGLTF.preload('/models/beavisAndButthead/buttheadfinal.glb');
+useFBX.preload('/models/beavisAndButthead/Sitting_talking.fbx');
