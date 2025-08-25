@@ -37,10 +37,10 @@ export default function AudioButton() {
           fixed top-3 right-3 z-[9999]
           inline-flex items-center justify-center
           h-10 w-10 rounded-full
-          border border-neutral-500
-          bg-neutral-800/80 text-neutral-200
+          border border-neutral-700
+          bg-neutral-700 text-neutral-200
           backdrop-blur shadow
-          hover:bg-neutral-700/90 hover:text-indigo-300
+          hover:bg-neutral-800/90 hover:text-indigo-300
           transition-colors
         "
         aria-label={playing ? 'Pause' : 'Play'}>
