@@ -1,3 +1,11 @@
+@font-face {
+  font-family: "SpFont";
+  src: url("/font/spfont.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap; /* optional but nice */
+}
+
 #root {
   width: 100vw;
   height: 100vh;
@@ -5,4 +13,32 @@
 
 body {
   margin: 0;
+}
+
+.btn {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #8b5cf6;
+  color: #fff;
+  padding: 12px 28px;
+  border-radius: 999px;
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: none;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  font-family: "SpFont", sans-serif;
+
+  /* smooth transitions */
+  transition: 
+    background 0.3s ease,
+    transform 0.2s ease,
+    letter-spacing 0.2s ease;
+}
+
+.btn:hover {
+  background: #7c3aed;         /* slightly darker purple */
+  transform: translateX(-50%) scale(1.05); /* pop out */
+  letter-spacing: 2px;         /* playful spacing */
 }

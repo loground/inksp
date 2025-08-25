@@ -57,8 +57,8 @@ const styles = {
   },
   card: { display: 'flex', flexDirection: 'column', gap: 10, pointerEvents: 'auto' },
   row: { display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 12 },
-  title: { fontSize: 18, fontWeight: 600, color: '#fff' },
-  pct: { fontFamily: 'ui-monospace, Menlo, Monaco, monospace', color: '#fff' },
+  title: { fontFamily: 'spFont', fontSize: 18, fontWeight: 600, color: '#fff' },
+  pct: { fontFamily: 'spFont', color: '#fff' },
   barOuter: {
     height: 8,
     width: '100%',
@@ -73,6 +73,7 @@ const styles = {
     transition: 'width 120ms ease',
   },
   meta: {
+    fontFamily: 'spFont',
     display: 'flex',
     justifyContent: 'space-between',
     color: 'rgba(255,255,255,0.85)',
@@ -80,6 +81,7 @@ const styles = {
     gap: 8,
   },
   item: {
+    fontFamily: 'spFont',
     maxWidth: 240,
     textAlign: 'right',
     overflow: 'hidden',
