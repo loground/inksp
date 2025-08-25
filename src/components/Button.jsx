@@ -10,7 +10,7 @@ const ButtonRedirect = () => {
   );
 };
 
-const TARGET_TEXT = 'ENTER';
+const TARGET_TEXT = 'ENTER INK WEB';
 const CYCLES_PER_LETTER = 2;
 const SHUFFLE_TIME = 50;
 
