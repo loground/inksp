@@ -85,7 +85,7 @@ export const Experience = ({ ...props }) => {
 
       {/* SCENE with responsive transforms */}
 
-      <Background />
+      {/* <Background /> */}
       <MainCapsule
         scale={layout.MainCapsule.scale}
         position={layout.MainCapsule.position}
