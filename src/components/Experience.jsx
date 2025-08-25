@@ -14,6 +14,7 @@ import { Beavis } from '../assets/ModelsCode/Beavis';
 import { ApeComp } from '../assets/ModelsCode/ComputerApe';
 import { RoomOptimised } from '../assets/ModelsCode/newRoom';
 import Background from './Background';
+import { Palm } from '../assets/ModelsCode/Palm';
 
 const depthMaterial = new MeshDepthMaterial();
 depthMaterial.depthPacking = THREE.RGBADepthPacking;
@@ -37,7 +38,7 @@ export const Experience = ({ ...props }) => {
     () =>
       isMobile
         ? {
-            camera: { min: 18, max: 55, minPolar: -180, maxPolar: 80, fov: 70 },
+            camera: { min: 18, max: 70, minPolar: -180, maxPolar: 80, fov: 70 },
             MainCapsule: { scale: 11, position: [18, -5, 0], rotationY: Math.PI / 5 },
             JungleBay: { scale: 4, position: [18, -2, 0] },
             MferMax: { scale: 12, position: [-7, -5, 6], rotationY: Math.PI / 1.4 },
@@ -50,6 +51,7 @@ export const Experience = ({ ...props }) => {
             Beavis: { scale: 8, position: [11, -2, 8], rotationY: Math.PI * 1.2 },
             ApeComp: { scale: 2.4, position: [-17, 6, 10], rotationY: Math.PI / 1 },
             Room: { scale: 8, position: [-20, 18, -10] },
+            Palm: { scale: 7, position: [26, -8, -4] },
           }
         : {
             camera: { min: 20, max: 70, minPolar: -180, maxPolar: 80, fov: 80 },
@@ -65,6 +67,7 @@ export const Experience = ({ ...props }) => {
             Beavis: { scale: 10, position: [14, -5.5, 8.5], rotationY: Math.PI * 1.2 },
             ApeComp: { scale: 3, position: [-22, 5.5, 10], rotationY: Math.PI / 1 },
             Room: { scale: 10, position: [-25, 20, -12] },
+            Palm: { scale: 8, position: [36, -8, -8] },
           },
     [isMobile],
   );
@@ -120,6 +123,8 @@ export const Experience = ({ ...props }) => {
       />
 
       <RoomOptimised scale={layout.Room.scale} position={layout.Room.position} />
+
+      <Palm scale={layout.Palm.scale} position={layout.Palm.position} />
     </group>
   );
 };

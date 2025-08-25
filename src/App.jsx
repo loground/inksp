@@ -9,7 +9,7 @@ import LoaderOverlay from './components/Loader';
 function App() {
   return (
     <>
-      <Canvas camera={{ position: [8, 12, 33], fov: 80 }} gl={{ antialias: true }}>
+      <Canvas camera={{ position: [8, 12, 45], fov: 80 }} gl={{ antialias: true }}>
         {/* Everything that needs R3F hooks must be inside Canvas */}
         <Suspense fallback={<LoaderOverlay />}>
           <color attach="background" args={['#141300']} />
