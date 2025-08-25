@@ -18,7 +18,7 @@ function App() {
         </Suspense>
       </Canvas>
       <a href="https://ignatevink.fun" className="btn">
-        ENTER TO THE INK WEB
+        ENTER
       </a>
     </>
   );
