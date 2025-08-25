@@ -3,7 +3,7 @@ import { useGLTF, useAnimations, useFBX } from '@react-three/drei';
 
 export function Butthead(props) {
   const group = useRef();
-  const { nodes, materials } = useGLTF('/models/beavisAndButthead/buttheadfinal.glb');
+  const { nodes, materials } = useGLTF('/models/beavisAndButthead/buttheadfinal-opt.glb');
   const fbx = useFBX('/models/beavisAndButthead/Sitting_talking.fbx');
 
   const { actions, mixer } = useAnimations(fbx.animations, group);
@@ -26,28 +26,7 @@ export function Butthead(props) {
 
   return (
     <group {...props} ref={group} dispose={null}>
-      <group rotation={[Math.PI / 2, 0, 0]}>
-        <primitive object={nodes.GLTF_created_0_rootJoint} />
-        <skinnedMesh
-          geometry={nodes.Object_88.geometry}
-          material={materials.butthead_skin}
-          skeleton={nodes.Object_88.skeleton}
-        />
-        <skinnedMesh
-          geometry={nodes.Object_91.geometry}
-          material={materials.butthead_skin}
-          skeleton={nodes.Object_91.skeleton}
-        />
-        <skinnedMesh
-          geometry={nodes.Object_94.geometry}
-          material={materials.butthead_gums}
-          skeleton={nodes.Object_94.skeleton}
-        />
-        <skinnedMesh
-          geometry={nodes.Object_97.geometry}
-          material={materials.butthead_hair}
-          skeleton={nodes.Object_97.skeleton}
-        />
+      <group position={[0, 2, 0]} rotation={[Math.PI / 2.2, 0, 0]} scale={1}>
         <skinnedMesh
           geometry={nodes.Object_100.geometry}
           material={materials.butthead_skin}
@@ -118,10 +97,31 @@ export function Butthead(props) {
           material={materials.butthead_teeth}
           skeleton={nodes.Object_139.skeleton}
         />
+        <skinnedMesh
+          geometry={nodes.Object_88.geometry}
+          material={materials.butthead_skin}
+          skeleton={nodes.Object_88.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.Object_91.geometry}
+          material={materials.butthead_skin}
+          skeleton={nodes.Object_91.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.Object_94.geometry}
+          material={materials.butthead_gums}
+          skeleton={nodes.Object_94.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.Object_97.geometry}
+          material={materials.butthead_hair}
+          skeleton={nodes.Object_97.skeleton}
+        />
+        <primitive object={nodes.GLTF_created_0_rootJoint} />
       </group>
     </group>
   );
 }
 
-useGLTF.preload('/models/beavisAndButthead/buttheadfinal.glb');
+useGLTF.preload('/models/beavisAndButthead/buttheadfinal-opt.glb');
 useFBX.preload('/models/beavisAndButthead/Sitting_talking.fbx');

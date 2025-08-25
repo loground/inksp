@@ -3,8 +3,8 @@ import { useGLTF, useAnimations, useFBX } from '@react-three/drei';
 
 export function MferMax(props) {
   const group = useRef();
-  const { nodes, materials, animations } = useGLTF('/models/mfer/mfer.glb');
-  const fbx = useFBX('/models/mfer/Silly Dancing.fbx');
+  const { nodes, materials, animations } = useGLTF('/models/mfer/mfer-opt.glb');
+  const fbx = useFBX('/models/mfer/Silly_Dancing.fbx');
 
   const { actions, mixer } = useAnimations(fbx.animations, group);
 
@@ -100,5 +100,5 @@ export function MferMax(props) {
     </group>
   );
 }
-useGLTF.preload('/models/mfer/mfer.glb');
-useFBX.preload('/models/Silly Dancing.fbx');
+useGLTF.preload('/models/mfer/mfer-opt.glb');
+useFBX.preload('/models/mfer/Silly_Dancing.fbx');

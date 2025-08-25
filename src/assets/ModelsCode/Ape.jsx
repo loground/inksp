@@ -6,7 +6,7 @@ export function JungleBay(props) {
   const group = useRef();
 
   // Load your GLB character (the mesh and skeleton you’ll animate)
-  const { nodes, materials } = useGLTF('/models/apee.glb');
+  const { nodes, materials } = useGLTF('/models/apee-opt.glb');
 
   // Load the FBX that contains the animation you want
   const fbx = useFBX('/models/Floating.fbx');
@@ -38,68 +38,69 @@ export function JungleBay(props) {
 
   return (
     <group ref={group} {...props} dispose={null}>
-      <group name="Scene">
+      <group>
         <group name="Armature" rotation={[Math.PI / 2, -0.02, 0]} scale={0.005}>
+          <primitive object={nodes.mixamorigHips} />
           <skinnedMesh
             name="body"
             geometry={nodes.body.geometry}
             material={materials['body_mtl.001']}
             skeleton={nodes.body.skeleton}
           />
+          <skinnedMesh
+            name="jungle_bay_cornea"
+            geometry={nodes.jungle_bay_cornea.geometry}
+            material={materials['Cornia.004']}
+            skeleton={nodes.jungle_bay_cornea.skeleton}
+          />
           <group name="jungle_bay">
             <skinnedMesh
-              name="JbackLP002"
-              geometry={nodes.JbackLP002.geometry}
+              name="jungle_bay_primitive0"
+              geometry={nodes.jungle_bay_primitive0.geometry}
               material={materials['TT_checker_2048x2048_UV_GRID.002']}
-              skeleton={nodes.JbackLP002.skeleton}
+              skeleton={nodes.jungle_bay_primitive0.skeleton}
             />
             <skinnedMesh
-              name="JbackLP002_1"
-              geometry={nodes.JbackLP002_1.geometry}
+              name="jungle_bay_primitive1"
+              geometry={nodes.jungle_bay_primitive1.geometry}
               material={materials['Iris.005']}
-              skeleton={nodes.JbackLP002_1.skeleton}
+              skeleton={nodes.jungle_bay_primitive1.skeleton}
             />
             <skinnedMesh
-              name="JbackLP002_2"
-              geometry={nodes.JbackLP002_2.geometry}
+              name="jungle_bay_primitive2"
+              geometry={nodes.jungle_bay_primitive2.geometry}
               material={materials['Mouth.002']}
-              skeleton={nodes.JbackLP002_2.skeleton}
+              skeleton={nodes.jungle_bay_primitive2.skeleton}
             />
             <skinnedMesh
-              name="JbackLP002_3"
-              geometry={nodes.JbackLP002_3.geometry}
+              name="jungle_bay_primitive3"
+              geometry={nodes.jungle_bay_primitive3.geometry}
               material={materials['smoke_cig_white_mtl.001']}
-              skeleton={nodes.JbackLP002_3.skeleton}
+              skeleton={nodes.jungle_bay_primitive3.skeleton}
             />
             <skinnedMesh
-              name="JbackLP002_4"
-              geometry={nodes.JbackLP002_4.geometry}
+              name="jungle_bay_primitive4"
+              geometry={nodes.jungle_bay_primitive4.geometry}
               material={materials['smoke_mtl.001']}
-              skeleton={nodes.JbackLP002_4.skeleton}
+              skeleton={nodes.jungle_bay_primitive4.skeleton}
             />
             <skinnedMesh
-              name="JbackLP002_5"
-              geometry={nodes.JbackLP002_5.geometry}
+              name="jungle_bay_primitive5"
+              geometry={nodes.jungle_bay_primitive5.geometry}
               material={materials['headphones_pink_mtl.001']}
-              skeleton={nodes.JbackLP002_5.skeleton}
+              skeleton={nodes.jungle_bay_primitive5.skeleton}
             />
             <skinnedMesh
-              name="JbackLP002_6"
-              geometry={nodes.JbackLP002_6.geometry}
+              name="jungle_bay_primitive6"
+              geometry={nodes.jungle_bay_primitive6.geometry}
               material={materials['shirt_hoodie_up_dark_gray_mtl.001']}
-              skeleton={nodes.JbackLP002_6.skeleton}
+              skeleton={nodes.jungle_bay_primitive6.skeleton}
             />
             <skinnedMesh
-              name="JbackLP002_7"
-              geometry={nodes.JbackLP002_7.geometry}
+              name="jungle_bay_primitive7"
+              geometry={nodes.jungle_bay_primitive7.geometry}
               material={materials['heres_my_signature_mtl.001']}
-              skeleton={nodes.JbackLP002_7.skeleton}
-            />
-            <skinnedMesh
-              name="jungle_bay_cornea"
-              geometry={nodes.jungle_bay_cornea.geometry}
-              material={materials['Cornia.004']}
-              skeleton={nodes.jungle_bay_cornea.skeleton}
+              skeleton={nodes.jungle_bay_primitive7.skeleton}
             />
           </group>
           <skinnedMesh
@@ -114,13 +115,11 @@ export function JungleBay(props) {
             material={materials['type_ape_mtl.001']}
             skeleton={nodes.type_ape002.skeleton}
           />
-          {/* This bone hierarchy needs to be present under the same group for binding */}
-          <primitive object={nodes.mixamorigHips} />
         </group>
       </group>
     </group>
   );
 }
 
-useGLTF.preload('/models/apee.glb');
+useGLTF.preload('/models/apee-opt.glb');
 useFBX.preload('/models/Floating.fbx');
