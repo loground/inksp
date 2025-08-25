@@ -4,14 +4,14 @@ import { MeshDepthMaterial } from 'three';
 import { degToRad } from 'three/src/math/MathUtils.js';
 import { MainCapsule } from '../assets/ModelsCode/Capsule';
 import { JungleBay } from '../assets/ModelsCode/Ape';
-
-import { FinalRoom } from '../assets/ModelsCode/RoomFixed';
 import { MferMax } from '../assets/ModelsCode/MaxMfer';
 import Background from './Background';
 import { Butthead } from '../assets/ModelsCode/Butthead';
 import { Beavis } from '../assets/ModelsCode/Beavis';
 import { ApeComp } from '../assets/ModelsCode/ComputerApe';
 import { RoomOptimised } from '../assets/ModelsCode/newRoom';
+import LoaderOverlay from './Loader';
+
 const depthMaterial = new MeshDepthMaterial();
 depthMaterial.depthPacking = THREE.RGBADepthPacking;
 depthMaterial.blending = THREE.NoBlending;
@@ -43,6 +43,7 @@ export const Experience = ({ ...props }) => {
       <RoomOptimised scale={10} position={[-25, 20, -12]} />
 
       {/* <FinalRoom scale={10} position={[-25, 20, -12]} /> */}
+      <LoaderOverlay />
     </group>
   );
 };
