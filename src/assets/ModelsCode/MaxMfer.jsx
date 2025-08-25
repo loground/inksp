@@ -27,7 +27,7 @@ export function MferMax(props) {
   return (
     <group ref={group} {...props} dispose={null}>
       <group name="Scene">
-        <group name="Armature" rotation={[Math.PI / 2, -0.02, 0]} scale={0.005}>
+        <group name="Armature" rotation={[Math.PI / 2, -0.02, 0]} scale={0.05}>
           <skinnedMesh
             name="body"
             geometry={nodes.body.geometry}

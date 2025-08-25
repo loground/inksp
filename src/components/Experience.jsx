@@ -41,7 +41,7 @@ export const Experience = ({ ...props }) => {
             camera: { min: 18, max: 70, minPolar: -180, maxPolar: 80, fov: 70 },
             MainCapsule: { scale: 11, position: [18, -5, 0], rotationY: Math.PI / 5 },
             JungleBay: { scale: 4, position: [18, -2, 0] },
-            MferMax: { scale: 12, position: [-7, -5, 6], rotationY: Math.PI / 1.4 },
+            MferMax: { scale: 0.8, position: [-1, -5, -1], rotationY: Math.PI * 2 },
             Butthead: {
               scale: 4,
               position: [-2, -8, 1],
@@ -57,7 +57,7 @@ export const Experience = ({ ...props }) => {
             camera: { min: 20, max: 70, minPolar: -180, maxPolar: 80, fov: 80 },
             MainCapsule: { scale: 15, position: [25, -8, 0], rotationY: Math.PI / 5 },
             JungleBay: { scale: 5, position: [25, -4, 0] },
-            MferMax: { scale: 15, position: [-8, -8, 5.5], rotationY: Math.PI / 1.4 },
+            MferMax: { scale: 1, position: [0, -8, 1], rotationY: Math.PI * 2 },
             Butthead: {
               scale: 5,
               position: [-2, -12, 1],
