@@ -8,6 +8,7 @@ import './index.css';
 import LoaderOverlay from './components/Loader';
 import RedirectButton from './components/Button';
 import AudioButton from './components/AudioButton';
+import SocialIcons from './components/SocialIcons';
 
 function App() {
   // active === true while assets are loading (incl. <Preload all />)
@@ -37,6 +38,7 @@ function App() {
             <RedirectButton />
           </div>
           <AudioButton />
+          <SocialIcons />
         </>
       )}
     </>
