@@ -17,7 +17,7 @@ function App() {
   return (
     <>
       <Canvas camera={{ position: [8, 12, 45], fov: 80 }} gl={{ antialias: true }}>
-        <color attach="background" args={['#141300']} />
+        <color attach="background" args={['#141400']} />
         <Suspense fallback={<LoaderOverlay />}>
           <Experience />
           <Preload all />
