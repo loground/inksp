@@ -13,6 +13,7 @@ import { Butthead } from '../assets/ModelsCode/Butthead';
 import { Beavis } from '../assets/ModelsCode/Beavis';
 import { ApeComp } from '../assets/ModelsCode/ComputerApe';
 import { RoomOptimised } from '../assets/ModelsCode/newRoom';
+import Background from './Background';
 
 const depthMaterial = new MeshDepthMaterial();
 depthMaterial.depthPacking = THREE.RGBADepthPacking;
@@ -83,6 +84,8 @@ export const Experience = ({ ...props }) => {
       <directionalLight position={[-15, 5, -15]} intensity={1.2} color="skyblue" />
 
       {/* SCENE with responsive transforms */}
+
+      <Background />
       <MainCapsule
         scale={layout.MainCapsule.scale}
         position={layout.MainCapsule.position}
