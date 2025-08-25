@@ -1,25 +1,44 @@
+// App.tsx / App.jsx
 import { Canvas } from '@react-three/fiber';
 import { Experience } from './components/Experience';
-import { Preload } from '@react-three/drei';
+import { Preload, useProgress } from '@react-three/drei';
 import { Suspense } from 'react';
 import './index.css';
 
 import LoaderOverlay from './components/Loader';
+import RedirectButton from './components/Button';
+import AudioButton from './components/AudioButton';
 
 function App() {
+  // active === true while assets are loading (incl. <Preload all />)
+  const { active } = useProgress();
+  const isLoading = active; // or use: const isLoading = active || progress < 100;
+
   return (
     <>
       <Canvas camera={{ position: [8, 12, 45], fov: 80 }} gl={{ antialias: true }}>
-        {/* Everything that needs R3F hooks must be inside Canvas */}
+        <color attach="background" args={['#141300']} />
         <Suspense fallback={<LoaderOverlay />}>
-          <color attach="background" args={['#141300']} />
           <Experience />
           <Preload all />
         </Suspense>
       </Canvas>
-      <a href="https://ignatevink.fun" className="btn">
-        ENTER
-      </a>
+
+      {/* Show the button only when loading is done */}
+      {!isLoading && (
+        <>
+          <div
+            className="
+            fixed inset-x-0
+            bottom-[calc(env(safe-area-inset-bottom,0px)+60px)]
+            z-[9999]
+            flex justify-center
+          ">
+            <RedirectButton />
+          </div>
+          <AudioButton />
+        </>
+      )}
     </>
   );
 }

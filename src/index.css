@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 @font-face {
   font-family: "SpFont";
   src: url("/font/spfont.ttf") format("truetype");
@@ -30,16 +34,8 @@ body {
   text-decoration: none;
   box-shadow: 0 4px 12px rgba(0,0,0,0.3);
   font-family: "SpFont", sans-serif;
-
+}
   /* smooth transitions */
-  transition: 
-    background 0.3s ease,
-    transform 0.2s ease,
-    letter-spacing 0.2s ease;
-}
 
-.btn:hover {
-  background: #7c3aed;         /* slightly darker purple */
-  transform: translateX(-50%) scale(1.05); /* pop out */
-  letter-spacing: 2px;         /* playful spacing */
-}
+
+
