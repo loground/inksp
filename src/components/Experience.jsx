@@ -15,7 +15,6 @@ import { ApeComp } from '../assets/ModelsCode/ComputerApe';
 import { RoomOptimised } from '../assets/ModelsCode/newRoom';
 import Background from './Background';
 import { Palm } from '../assets/ModelsCode/Palm';
-import Text from './InkText';
 
 const depthMaterial = new MeshDepthMaterial();
 depthMaterial.depthPacking = THREE.RGBADepthPacking;
@@ -144,10 +143,10 @@ export const Experience = ({ ...props }) => {
         bevelSize={0.1}
         material={
           new MeshStandardMaterial({
-            color: '#06106d', // Bright pink base
+            color: '#030b50', // Bright pink base
             metalness: 1, // Pure metal
             roughness: 0, // Perfectly reflective (mirror-like)
-            emissive: '#082cf6', // No emissive glow for realism
+            emissive: '#001486', // No emissive glow for realism
             envMapIntensity: 2, // Stronger reflections for a shiny finish
           })
         }>
