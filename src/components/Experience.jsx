@@ -1,7 +1,7 @@
 // Experience.jsx
-import { CameraControls, Environment } from '@react-three/drei';
+import { CameraControls, Environment, Text3D } from '@react-three/drei';
 import * as THREE from 'three';
-import { MeshDepthMaterial } from 'three';
+import { MeshDepthMaterial, MeshStandardMaterial } from 'three';
 import { degToRad } from 'three/src/math/MathUtils.js';
 import { useThree } from '@react-three/fiber';
 import { useMemo } from 'react';
@@ -15,6 +15,7 @@ import { ApeComp } from '../assets/ModelsCode/ComputerApe';
 import { RoomOptimised } from '../assets/ModelsCode/newRoom';
 import Background from './Background';
 import { Palm } from '../assets/ModelsCode/Palm';
+import Text from './InkText';
 
 const depthMaterial = new MeshDepthMaterial();
 depthMaterial.depthPacking = THREE.RGBADepthPacking;
@@ -52,6 +53,7 @@ export const Experience = ({ ...props }) => {
             ApeComp: { scale: 2.4, position: [-17, 6, 10], rotationY: Math.PI / 1 },
             Room: { scale: 8, position: [-20, 18, -10] },
             Palm: { scale: 7, position: [26, -8, -4] },
+            Text: { scale: 1.2, position: [16, 0.2, 10], rotationY: Math.PI * 1.8 },
           }
         : {
             camera: { min: 20, max: 70, minPolar: -180, maxPolar: 80, fov: 80 },
@@ -68,6 +70,7 @@ export const Experience = ({ ...props }) => {
             ApeComp: { scale: 3, position: [-22, 5.5, 10], rotationY: Math.PI / 1 },
             Room: { scale: 10, position: [-25, 20, -12] },
             Palm: { scale: 8, position: [36, -8, -8] },
+            Text: { scale: 1.5, position: [19.5, -2.2, 13], rotationY: Math.PI * 1.8 },
           },
     [isMobile],
   );
@@ -125,6 +128,29 @@ export const Experience = ({ ...props }) => {
       <RoomOptimised scale={layout.Room.scale} position={layout.Room.position} />
 
       <Palm scale={layout.Palm.scale} position={layout.Palm.position} />
+
+      <Text3D
+        scale={layout.Text.scale}
+        position={layout.Text.position}
+        rotation-y={layout.Text.rotationY}
+        castShadow
+        font="/font/sp.json"
+        lineHeight={0.8}
+        letterSpacing={0.4}
+        bevelEnabled
+        bevelThickness={0.06}
+        bevelSize={0.1}
+        material={
+          new MeshStandardMaterial({
+            color: '#37582D', // Bright pink base
+            metalness: 1, // Pure metal
+            roughness: 0, // Perfectly reflective (mirror-like)
+            emissive: '#136f0e', // No emissive glow for realism
+            envMapIntensity: 2, // Stronger reflections for a shiny finish
+          })
+        }>
+        INK
+      </Text3D>
     </group>
   );
 };
