@@ -35,7 +35,7 @@ export default function AudioButton() {
         className="
           fixed top-3 right-3 z-[9999]
           inline-flex items-center justify-center
-          h-10 w-10 
+          h-40 w-40 
           
         "
         aria-label={playing ? 'Pause' : 'Play'}>
