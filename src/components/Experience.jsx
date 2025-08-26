@@ -70,7 +70,7 @@ export const Experience = ({ ...props }) => {
             ApeComp: { scale: 3, position: [-22, 5.5, 10], rotationY: Math.PI / 1 },
             Room: { scale: 10, position: [-25, 20, -12] },
             Palm: { scale: 8, position: [36, -8, -8] },
-            Text: { scale: 1.5, position: [19.5, -2.2, 13], rotationY: Math.PI * 1.8 },
+            Text: { scale: 1.8, position: [19, -1.8, 13], rotationY: Math.PI * 2 },
           },
     [isMobile],
   );
@@ -133,6 +133,8 @@ export const Experience = ({ ...props }) => {
         scale={layout.Text.scale}
         position={layout.Text.position}
         rotation-y={layout.Text.rotationY}
+        rotation-x={Math.PI / 1.9}
+        rotation-z={Math.PI * 2.1}
         castShadow
         font="/font/sp.json"
         lineHeight={0.8}
@@ -142,10 +144,10 @@ export const Experience = ({ ...props }) => {
         bevelSize={0.1}
         material={
           new MeshStandardMaterial({
-            color: '#37582D', // Bright pink base
+            color: '#06106d', // Bright pink base
             metalness: 1, // Pure metal
             roughness: 0, // Perfectly reflective (mirror-like)
-            emissive: '#136f0e', // No emissive glow for realism
+            emissive: '#082cf6', // No emissive glow for realism
             envMapIntensity: 2, // Stronger reflections for a shiny finish
           })
         }>
