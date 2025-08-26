@@ -135,7 +135,7 @@ export const Experience = ({ ...props }) => {
         scale={1}
         renderOrder={999} // draw on top
       >
-        <planeGeometry args={[5, 3]} />
+        <planeGeometry args={[5, 5]} />
         <meshBasicMaterial // unlit so it shows regardless of lights
           map={texture}
           transparent
