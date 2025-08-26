@@ -52,12 +52,12 @@ export const Experience = ({ ...props }) => {
             Beavis: { scale: 8, position: [11, -2, 8], rotationY: Math.PI * 1.2 },
             ApeComp: { scale: 2.4, position: [-17, 6, 10], rotationY: Math.PI / 1 },
             Room: { scale: 8, position: [-20, 18, -10] },
-            Palm: { scale: 7, position: [26, -8, -4] },
+            Palm: { scale: 7, position: [26, -5, -4] },
             Text: { scale: 0.7, position: [17.2, 0.29, 11], rotationY: Math.PI * 2 },
           }
         : {
             camera: { min: 20, max: 70, minPolar: -180, maxPolar: 80, fov: 80 },
-            MainCapsule: { scale: 15, position: [25, -8, 0], rotationY: Math.PI / 5 },
+            MainCapsule: { scale: 15, position: [25, -8.8, 0], rotationY: Math.PI / 5 },
             JungleBay: { scale: 5, position: [25, -4, 0] },
             MferMax: { scale: 1, position: [0, -8, 1], rotationY: Math.PI * 2 },
             Butthead: {
@@ -69,7 +69,7 @@ export const Experience = ({ ...props }) => {
             Beavis: { scale: 10, position: [14, -5.5, 8.5], rotationY: Math.PI * 1.2 },
             ApeComp: { scale: 3, position: [-22, 5.5, 10], rotationY: Math.PI / 1 },
             Room: { scale: 10, position: [-25, 20, -12] },
-            Palm: { scale: 8, position: [36, -8, -8] },
+            Palm: { scale: 8, position: [36, -9, -8] },
             Text: { scale: 0.8, position: [21.5, -2.2, 14], rotationY: Math.PI * 2 },
           },
     [isMobile],
