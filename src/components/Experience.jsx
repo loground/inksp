@@ -53,7 +53,7 @@ export const Experience = ({ ...props }) => {
             ApeComp: { scale: 2.4, position: [-17, 6, 10], rotationY: Math.PI / 1 },
             Room: { scale: 8, position: [-20, 18, -10] },
             Palm: { scale: 7, position: [26, -8, -4] },
-            Text: { scale: 1.2, position: [16, 0.2, 10], rotationY: Math.PI * 1.8 },
+            Text: { scale: 1.2, position: [15.5, 0.6, 9], rotationY: Math.PI * 2 },
           }
         : {
             camera: { min: 20, max: 70, minPolar: -180, maxPolar: 80, fov: 80 },
