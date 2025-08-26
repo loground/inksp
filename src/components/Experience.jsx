@@ -53,7 +53,7 @@ export const Experience = ({ ...props }) => {
             ApeComp: { scale: 2.4, position: [-17, 6, 10], rotationY: Math.PI / 1 },
             Room: { scale: 8, position: [-20, 18, -10] },
             Palm: { scale: 7, position: [26, -8, -4] },
-            Text: { scale: 1.2, position: [17.2, 0.29, 11], rotationY: Math.PI * 2 },
+            Text: { scale: 0.7, position: [17.2, 0.29, 11], rotationY: Math.PI * 2 },
           }
         : {
             camera: { min: 20, max: 70, minPolar: -180, maxPolar: 80, fov: 80 },
@@ -70,7 +70,7 @@ export const Experience = ({ ...props }) => {
             ApeComp: { scale: 3, position: [-22, 5.5, 10], rotationY: Math.PI / 1 },
             Room: { scale: 10, position: [-25, 20, -12] },
             Palm: { scale: 8, position: [36, -8, -8] },
-            Text: { scale: 0, position: [21.5, -2.2, 14], rotationY: Math.PI * 2 },
+            Text: { scale: 0.8, position: [21.5, -2.2, 14], rotationY: Math.PI * 2 },
           },
     [isMobile],
   );
@@ -132,7 +132,7 @@ export const Experience = ({ ...props }) => {
       <mesh
         position={layout.Text.position} // put it in front of the origin/camera
         rotation={[-1.5, 0, 0]} // no rotations yet
-        scale={1}
+        scale={layout.Text.scale}
         renderOrder={999} // draw on top
       >
         <planeGeometry args={[5, 5]} />
