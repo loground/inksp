@@ -1,5 +1,5 @@
 // Experience.jsx
-import { CameraControls, Environment, Text3D } from '@react-three/drei';
+import { CameraControls, Environment, Text3D, useTexture } from '@react-three/drei';
 import * as THREE from 'three';
 import { MeshDepthMaterial, MeshStandardMaterial } from 'three';
 import { degToRad } from 'three/src/math/MathUtils.js';
@@ -32,6 +32,7 @@ function useIsMobile() {
 
 export const Experience = ({ ...props }) => {
   const isMobile = useIsMobile();
+  const texture = useTexture('/models/cards.png');
 
   // Centralized layouts: easy to tweak per device
   const layout = useMemo(
@@ -52,7 +53,7 @@ export const Experience = ({ ...props }) => {
             ApeComp: { scale: 2.4, position: [-17, 6, 10], rotationY: Math.PI / 1 },
             Room: { scale: 8, position: [-20, 18, -10] },
             Palm: { scale: 7, position: [26, -8, -4] },
-            Text: { scale: 1.2, position: [15.5, 0.6, 9], rotationY: Math.PI * 2 },
+            Text: { scale: 1.2, position: [17.2, 0.25, 11], rotationY: Math.PI * 2 },
           }
         : {
             camera: { min: 20, max: 70, minPolar: -180, maxPolar: 80, fov: 80 },
@@ -69,7 +70,7 @@ export const Experience = ({ ...props }) => {
             ApeComp: { scale: 3, position: [-22, 5.5, 10], rotationY: Math.PI / 1 },
             Room: { scale: 10, position: [-25, 20, -12] },
             Palm: { scale: 8, position: [36, -8, -8] },
-            Text: { scale: 1.8, position: [19, -1.8, 13], rotationY: Math.PI * 2 },
+            Text: { scale: 0, position: [21.5, -2.2, 14], rotationY: Math.PI * 2 },
           },
     [isMobile],
   );
@@ -128,30 +129,20 @@ export const Experience = ({ ...props }) => {
 
       <Palm scale={layout.Palm.scale} position={layout.Palm.position} />
 
-      <Text3D
-        scale={layout.Text.scale}
-        position={layout.Text.position}
-        rotation-y={layout.Text.rotationY}
-        rotation-x={Math.PI / 1.9}
-        rotation-z={Math.PI * 2.1}
-        castShadow
-        font="/font/sp.json"
-        lineHeight={0.8}
-        letterSpacing={0.4}
-        bevelEnabled
-        bevelThickness={0.06}
-        bevelSize={0.1}
-        material={
-          new MeshStandardMaterial({
-            color: '#030b50', // Bright pink base
-            metalness: 1, // Pure metal
-            roughness: 0, // Perfectly reflective (mirror-like)
-            emissive: '#001486', // No emissive glow for realism
-            envMapIntensity: 2, // Stronger reflections for a shiny finish
-          })
-        }>
-        INK
-      </Text3D>
+      <mesh
+        position={layout.Text.position} // put it in front of the origin/camera
+        rotation={[-1.5, 0, 0]} // no rotations yet
+        scale={1}
+        renderOrder={999} // draw on top
+      >
+        <planeGeometry args={[5, 3]} />
+        <meshBasicMaterial // unlit so it shows regardless of lights
+          map={texture}
+          transparent
+          side={THREE.DoubleSide} // visible from both sides
+          depthWrite={false} // reduce z-fighting/occlusion surprises
+        />
+      </mesh>
     </group>
   );
 };
