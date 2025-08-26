@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from 'react';
-import { FiPlay, FiPause } from 'react-icons/fi';
 import { motion } from 'framer-motion';
 
 export default function AudioButton() {
@@ -36,15 +35,15 @@ export default function AudioButton() {
         className="
           fixed top-3 right-3 z-[9999]
           inline-flex items-center justify-center
-          h-10 w-10 rounded-full
-          border border-neutral-700
-          bg-neutral-700 text-neutral-200
-          backdrop-blur shadow
-          hover:bg-neutral-800/90 hover:text-indigo-300
-          transition-colors
+          h-10 w-10 
+          
         "
         aria-label={playing ? 'Pause' : 'Play'}>
-        {playing ? <FiPause /> : <FiPlay />}
+        <img
+          src={playing ? '/icons/pause.png' : '/icons/play.png'}
+          alt={playing ? 'Pause' : 'Play'}
+          className="h-30 w-30"
+        />
       </motion.button>
     </>
   );
