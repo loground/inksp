@@ -32,7 +32,7 @@ function useIsMobile() {
 
 export const Experience = ({ ...props }) => {
   const isMobile = useIsMobile();
-  const texture = useTexture('/models/cards.png');
+  const texture = useTexture('/models/стол.png');
 
   // Centralized layouts: easy to tweak per device
   const layout = useMemo(
