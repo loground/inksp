@@ -29,7 +29,7 @@ export const Experience = ({ ...props }) => {
     () =>
       isMobile
         ? {
-            // camera: { min: 18, max: 70, minPolar: -180, maxPolar: 80, fov: 70 },
+            camera: { min: 18, max: 70, minPolar: -180, maxPolar: 80, fov: 70 },
             MainScene: { scale: 11, position: [18, -5, 0], rotationY: Math.PI / 5 },
           }
         : {
@@ -61,16 +61,19 @@ export const Experience = ({ ...props }) => {
     </group>
   );
 };
-
 export const Background = () => {
   const map = useTexture('/classroom.avif');
 
+  // Flip horizontally
+  map.wrapS = THREE.RepeatWrapping;
+  map.repeat.x = -1; // mirror on X
+  map.offset.x = 1; // re-center after mirroring
+  map.needsUpdate = true;
+
   return (
-    <>
-      <mesh scale={1} rotation-y={Math.PI / 2}>
-        <sphereGeometry args={[280, 80, 80]} />
-        <meshBasicMaterial side={THREE.BackSide} map={map} toneMapped={false} />
-      </mesh>
-    </>
+    <mesh scale={1} rotation-y={Math.PI / 2}>
+      <sphereGeometry args={[320, 80, 80]} />
+      <meshBasicMaterial side={THREE.BackSide} map={map} toneMapped={false} />
+    </mesh>
   );
 };
