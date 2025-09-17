@@ -26,7 +26,7 @@ export default function AudioButton() {
   return (
     <>
       {/* Keep audio element around but hidden */}
-      <audio ref={audioRef} src="/song/main.mp3" preload="none" />
+      <audio ref={audioRef} src="/song/MemePark.mp3" preload="none" loop />
 
       <motion.button
         type="button"
