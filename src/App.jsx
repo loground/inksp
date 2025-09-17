@@ -1,10 +1,9 @@
 // App.tsx / App.jsx
 import { Canvas } from '@react-three/fiber';
 import { Experience } from './components/Experience';
-import { Preload, useProgress, useTexture } from '@react-three/drei';
+import { Preload, useProgress } from '@react-three/drei';
 import { Suspense } from 'react';
 
-import * as THREE from 'three';
 import './index.css';
 
 import LoaderOverlay from './components/Loader';
@@ -18,7 +17,7 @@ function App() {
 
   return (
     <>
-      <Canvas camera={{ position: [8, 12, 45], fov: 80 }} gl={{ antialias: true }}>
+      <Canvas camera={{ position: [8, 12, 255], fov: 80 }} gl={{ antialias: true }}>
         <color attach="background" args={['#141400']} />
         <Suspense fallback={<LoaderOverlay />}>
           <Experience />
