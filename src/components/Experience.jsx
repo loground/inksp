@@ -63,11 +63,11 @@ export const Experience = ({ ...props }) => {
 };
 
 export const Background = () => {
-  const map = useTexture('/Classroom_1.webp');
+  const map = useTexture('/classrom.PNG');
 
   return (
     <>
-      <mesh scale={1}>
+      <mesh scale={1} rotation-y={Math.PI / 2}>
         <sphereGeometry args={[280, 80, 80]} />
         <meshBasicMaterial side={THREE.BackSide} map={map} toneMapped={false} />
       </mesh>
