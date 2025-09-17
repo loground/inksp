@@ -63,7 +63,7 @@ export const Experience = ({ ...props }) => {
 };
 
 export const Background = () => {
-  const map = useTexture('/classrom.PNG');
+  const map = useTexture('/classroom.avif');
 
   return (
     <>
