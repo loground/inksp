@@ -1,20 +1,11 @@
 // Experience.jsx
-import { CameraControls, Environment, Text3D, useTexture } from '@react-three/drei';
+import { CameraControls, Environment, useTexture } from '@react-three/drei';
 import * as THREE from 'three';
 import { MeshDepthMaterial, MeshStandardMaterial } from 'three';
 import { degToRad } from 'three/src/math/MathUtils.js';
 import { useThree } from '@react-three/fiber';
 import { useMemo } from 'react';
-
-import { MainCapsule } from '../assets/ModelsCode/Capsule';
-import { JungleBay } from '../assets/ModelsCode/Ape';
-import { MferMax } from '../assets/ModelsCode/MaxMfer';
-import { Butthead } from '../assets/ModelsCode/Butthead';
-import { Beavis } from '../assets/ModelsCode/Beavis';
-import { ApeComp } from '../assets/ModelsCode/ComputerApe';
-import { RoomOptimised } from '../assets/ModelsCode/newRoom';
-import Background from './Background';
-import { Palm } from '../assets/ModelsCode/Palm';
+import { Cards } from './Cards';
 
 const depthMaterial = new MeshDepthMaterial();
 depthMaterial.depthPacking = THREE.RGBADepthPacking;
@@ -32,45 +23,18 @@ function useIsMobile() {
 
 export const Experience = ({ ...props }) => {
   const isMobile = useIsMobile();
-  const texture = useTexture('/models/стол.png');
 
   // Centralized layouts: easy to tweak per device
   const layout = useMemo(
     () =>
       isMobile
         ? {
-            camera: { min: 18, max: 70, minPolar: -180, maxPolar: 80, fov: 70 },
-            MainCapsule: { scale: 11, position: [18, -5, 0], rotationY: Math.PI / 5 },
-            JungleBay: { scale: 4, position: [18, -2, 0] },
-            MferMax: { scale: 0.8, position: [-1, -5, -1], rotationY: Math.PI * 2 },
-            Butthead: {
-              scale: 4,
-              position: [-2, -8, 1],
-              rotationY: Math.PI,
-              rotationX: Math.PI / 2,
-            },
-            Beavis: { scale: 8, position: [11, -2, 8], rotationY: Math.PI * 1.2 },
-            ApeComp: { scale: 2.4, position: [-17, 6, 10], rotationY: Math.PI / 1 },
-            Room: { scale: 8, position: [-20, 18, -10] },
-            Palm: { scale: 7, position: [26, -5, -4] },
-            Text: { scale: 0.7, position: [17.2, 0.29, 11], rotationY: Math.PI * 2 },
+            // camera: { min: 18, max: 70, minPolar: -180, maxPolar: 80, fov: 70 },
+            MainScene: { scale: 11, position: [18, -5, 0], rotationY: Math.PI / 5 },
           }
         : {
-            camera: { min: 20, max: 70, minPolar: -180, maxPolar: 80, fov: 80 },
+            camera: { minPolar: -180, maxPolar: 80, fov: 80 },
             MainCapsule: { scale: 15, position: [25, -8.8, 0], rotationY: Math.PI / 5 },
-            JungleBay: { scale: 5, position: [25, -4, 0] },
-            MferMax: { scale: 1, position: [0, -8, 1], rotationY: Math.PI * 2 },
-            Butthead: {
-              scale: 5,
-              position: [-2, -12, 1],
-              rotationY: Math.PI,
-              rotationX: Math.PI / 2,
-            },
-            Beavis: { scale: 10, position: [14, -5.5, 8.5], rotationY: Math.PI * 1.2 },
-            ApeComp: { scale: 3, position: [-22, 5.5, 10], rotationY: Math.PI / 1 },
-            Room: { scale: 10, position: [-25, 20, -12] },
-            Palm: { scale: 8, position: [36, -9, -8] },
-            Text: { scale: 0.8, position: [21.5, -2.2, 14], rotationY: Math.PI * 2 },
           },
     [isMobile],
   );
@@ -90,59 +54,23 @@ export const Experience = ({ ...props }) => {
       <directionalLight position={[-15, 5, -15]} intensity={1.2} color="skyblue" />
 
       {/* SCENE with responsive transforms */}
+      <Cards />
 
       {/* <Background /> */}
-      <MainCapsule
-        scale={layout.MainCapsule.scale}
-        position={layout.MainCapsule.position}
-        rotation-y={layout.MainCapsule.rotationY}
-      />
-
-      <JungleBay scale={layout.JungleBay.scale} position={layout.JungleBay.position} />
-
-      <MferMax
-        scale={layout.MferMax.scale}
-        position={layout.MferMax.position}
-        rotation-y={layout.MferMax.rotationY}
-      />
-
-      <Butthead
-        scale={layout.Butthead.scale}
-        position={layout.Butthead.position}
-        rotation-y={layout.Butthead.rotationY}
-        rotation-x={layout.Butthead.rotationX}
-      />
-
-      <Beavis
-        scale={layout.Beavis.scale}
-        position={layout.Beavis.position}
-        rotation-y={layout.Beavis.rotationY}
-      />
-
-      <ApeComp
-        scale={layout.ApeComp.scale}
-        position={layout.ApeComp.position}
-        rotation-y={layout.ApeComp.rotationY}
-      />
-
-      <RoomOptimised scale={layout.Room.scale} position={layout.Room.position} />
-
-      <Palm scale={layout.Palm.scale} position={layout.Palm.position} />
-
-      <mesh
-        position={layout.Text.position} // put it in front of the origin/camera
-        rotation={[-1.5, 0, 0]} // no rotations yet
-        scale={layout.Text.scale}
-        renderOrder={999} // draw on top
-      >
-        <planeGeometry args={[5, 5]} />
-        <meshBasicMaterial // unlit so it shows regardless of lights
-          map={texture}
-          transparent
-          side={THREE.DoubleSide} // visible from both sides
-          depthWrite={false} // reduce z-fighting/occlusion surprises
-        />
-      </mesh>
+      <Background />
     </group>
+  );
+};
+
+export const Background = () => {
+  const map = useTexture('/Classroom_1.webp');
+
+  return (
+    <>
+      <mesh scale={1}>
+        <sphereGeometry args={[280, 80, 80]} />
+        <meshBasicMaterial side={THREE.BackSide} map={map} toneMapped={false} />
+      </mesh>
+    </>
   );
 };

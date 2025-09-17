@@ -1,14 +1,15 @@
 // App.tsx / App.jsx
 import { Canvas } from '@react-three/fiber';
 import { Experience } from './components/Experience';
-import { Preload, useProgress } from '@react-three/drei';
+import { Preload, useProgress, useTexture } from '@react-three/drei';
 import { Suspense } from 'react';
+
+import * as THREE from 'three';
 import './index.css';
 
 import LoaderOverlay from './components/Loader';
-import RedirectButton from './components/Button';
+
 import AudioButton from './components/AudioButton';
-import SocialIcons from './components/SocialIcons';
 
 function App() {
   // active === true while assets are loading (incl. <Preload all />)
@@ -28,17 +29,7 @@ function App() {
       {/* Show the button only when loading is done */}
       {!isLoading && (
         <>
-          <div
-            className="
-            fixed inset-x-0
-            bottom-[calc(env(safe-area-inset-bottom,0px)+60px)]
-            z-[9999]
-            flex justify-center
-          ">
-            <RedirectButton />
-          </div>
           <AudioButton />
-          <SocialIcons />
         </>
       )}
     </>
