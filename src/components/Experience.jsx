@@ -30,12 +30,10 @@ export const Experience = ({ ...props }) => {
       isMobile
         ? {
             camera: {
-              minDistance: 5,
-              maxDistance: 7,
-              min: 18,
-              max: 70,
+              min: 200,
+              max: 420,
               minPolar: -180,
-              maxPolar: 80,
+              maxPolar: 180,
               fov: 70,
             },
             MainScene: { scale: 11, position: [18, -5, 0], rotationY: Math.PI / 5 },
