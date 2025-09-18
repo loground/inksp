@@ -31,8 +31,8 @@ export default function UIOverlay() {
       <div className="pointer-events-none fixed left-3 top-3 lg:left-6 lg:top-6">
         <h1
           className="
-            font-sp uppercase tracking-wide text-white text-outline
-            text-2xl sm:text-3xl md:text-4xl lg:text-4xl
+            font-sp mt-6 uppercase tracking-wide text-white text-outline-soft
+            text-2xl sm:text-2xl md:text-4xl lg:text-4xl
           ">
           Welcome to MEME PARK!
         </h1>
@@ -70,7 +70,7 @@ export default function UIOverlay() {
             whileTap={{ scale: 0.96 }}
             className="
               font-sp uppercase tracking-wide
-              text-white text-outline transition-[color,transform] duration-150
+              text-white text-outline-soft text-2xl transition-[color,transform] duration-150
               hover:text-yellow-300 select-none
             ">
             Links
@@ -83,7 +83,7 @@ export default function UIOverlay() {
                 animate={{ opacity: 1, y: 4, scale: 1 }}
                 exit={{ opacity: 0, y: 8, scale: 0.98 }}
                 transition={{ duration: 0.18, ease: 'easeOut' }}
-                className="mt-2 flex w-56 flex-col items-start gap-1">
+                className="mt-2 flex w-42 flex-col items-start gap-1">
                 {LINKS.map((l) => (
                   <li key={l.href}>
                     <motion.a
@@ -95,7 +95,7 @@ export default function UIOverlay() {
                       whileTap={{ scale: 0.96 }}
                       className="
                         font-sp uppercase tracking-wide
-                        text-white text-outline transition-[color,transform] duration-150
+                        text-white text-outline-soft transition-[color,transform] duration-150
                         hover:text-yellow-300 select-none
                         block
                       ">
@@ -128,7 +128,7 @@ export default function UIOverlay() {
             whileTap={{ scale: 0.96 }}
             className="
               font-sp uppercase tracking-wide
-              text-white text-outline transition-[color,transform] duration-150
+              text-white text-outline-soft text-2xl transition-[color,transform] duration-150
               hover:text-yellow-300 select-none
             ">
             About

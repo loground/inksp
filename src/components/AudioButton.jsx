@@ -54,7 +54,7 @@ export default function AudioButton() {
         font-sp sp-font  
         uppercase tracking-wide
         text-white hover:text-yellow-300
-        text-base lg:text-2xl
+        text-2xl text-outline-soft
       ">
             {playing ? 'Pause' : 'Play'}
           </motion.span>
