@@ -78,7 +78,7 @@ export const Experience = ({ ...props }) => {
   );
 };
 export const Background = () => {
-  const map = useTexture('/classroom.avif');
+  const map = useTexture('/classroom.webp');
 
   // Flip horizontally
   map.wrapS = THREE.RepeatWrapping;
