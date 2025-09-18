@@ -70,10 +70,10 @@ export const Experience = ({ ...props }) => {
       <directionalLight position={[-15, 5, -15]} intensity={1.2} color="skyblue" />
 
       {/* SCENE with responsive transforms */}
-      {/* <Cards /> */}
+      <Cards />
 
       {/* <Background /> */}
-      <Background />
+      {/* <Background /> */}
     </group>
   );
 };
