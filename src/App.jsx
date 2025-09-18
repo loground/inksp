@@ -20,10 +20,10 @@ function App() {
     <>
       <Canvas camera={{ position: [8, 12, 255], fov: 80 }} gl={{ antialias: true }}>
         <color attach="background" args={['#141400']} />
-        {/* <Suspense fallback={<LoaderOverlay />}> */}
-        <Experience />
-        {/* <Preload all /> */}
-        {/* </Suspense> */}
+        <Suspense fallback={<LoaderOverlay />}>
+          <Experience />
+          <Preload all />
+        </Suspense>
       </Canvas>
 
       {/* Show the button only when loading is done */}
