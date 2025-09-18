@@ -1,7 +1,7 @@
 // Experience.jsx
 import { CameraControls, Environment, useTexture } from '@react-three/drei';
 import * as THREE from 'three';
-import { MeshDepthMaterial, MeshStandardMaterial } from 'three';
+import { MeshDepthMaterial } from 'three';
 import { degToRad } from 'three/src/math/MathUtils.js';
 import { useThree } from '@react-three/fiber';
 import { useMemo } from 'react';
