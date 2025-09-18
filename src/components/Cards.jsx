@@ -10,7 +10,7 @@ const CARD_D = 0.15;
 
 export function Cards() {
   // 1) Build the URL list: /cards/common1.avif ... /cards/common50.avif
-  const COUNT = 50; // set how many cards you want to show
+  const COUNT = 30; // set how many cards you want to show
   const urls = useMemo(
     () => Array.from({ length: COUNT }, (_, i) => `/cards/common${i + 1}.avif`),
     [COUNT],
