@@ -8,7 +8,7 @@ const CARD_W = 5;
 const CARD_H = 7;
 const CARD_D = 0.15;
 
-const BASE_SCALE = 42;
+const BASE_SCALE = 32;
 // slide distance in LOCAL units (card space)
 const SLIDE_X = CARD_W * 0.5;
 
