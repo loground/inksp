@@ -62,30 +62,47 @@ export default function UIOverlay() {
 
         {/* Mobile: Links button -> menu */}
         <div className="lg:hidden">
-          <motion.button
-            type="button"
-            onClick={() => setLinksOpen((s) => !s)}
-            aria-expanded={linksOpen}
-            whileHover={{ scale: 1.08 }}
-            whileTap={{ scale: 0.96 }}
-            className="
-              font-sp uppercase tracking-wide
-              text-white text-outline-soft text-2xl transition-[color,transform] duration-150
-              hover:text-yellow-300 select-none
-            ">
-            Links
-          </motion.button>
+          <div className="lg:hidden">
+            <motion.button
+              type="button"
+              onClick={() => setLinksOpen((s) => !s)}
+              aria-expanded={linksOpen}
+              whileHover={{ scale: 1.08 }}
+              whileTap={{ scale: 0.96 }}
+              className="
+      font-sp uppercase tracking-wide
+      text-white text-outline-soft text-2xl transition-[color,transform] duration-150
+      hover:text-yellow-300 select-none
+    ">
+              Links
+            </motion.button>
+          </div>
 
           <AnimatePresence>
             {linksOpen && (
               <motion.ul
-                initial={{ opacity: 0, y: 8, scale: 0.98 }}
-                animate={{ opacity: 1, y: 4, scale: 1 }}
-                exit={{ opacity: 0, y: 8, scale: 0.98 }}
-                transition={{ duration: 0.18, ease: 'easeOut' }}
-                className="mt-2 flex w-42 flex-col items-start gap-1">
+                // Container slides up a bit
+                initial={{ opacity: 0, y: 24 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 24 }}
+                transition={{
+                  duration: 0.22,
+                  ease: 'easeOut',
+                  staggerChildren: 0.06,
+                  delayChildren: 0.02,
+                }}
+                className="
+        pointer-events-auto fixed
+        right-3 bottom-16  /* 👈 sits above the About button; adjust to taste */
+        z-[9999] flex flex-col items-start gap-1
+      ">
                 {LINKS.map((l) => (
-                  <li key={l.href}>
+                  <motion.li
+                    key={l.href}
+                    initial={{ opacity: 0, y: 12 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 12 }}
+                    transition={{ duration: 0.18, ease: 'easeOut' }}>
                     <motion.a
                       href={l.href}
                       target="_blank"
@@ -94,14 +111,13 @@ export default function UIOverlay() {
                       whileHover={{ scale: 1.06 }}
                       whileTap={{ scale: 0.96 }}
                       className="
-                        font-sp uppercase tracking-wide
-                        text-white text-outline-soft transition-[color,transform] duration-150
-                        hover:text-yellow-300 select-none
-                        block
-                      ">
+              font-sp uppercase tracking-wide
+              text-white text-xl text-outline-soft transition-[color,transform] duration-150
+              hover:text-yellow-300 select-none block
+            ">
                       {l.label}
                     </motion.a>
-                  </li>
+                  </motion.li>
                 ))}
               </motion.ul>
             )}
