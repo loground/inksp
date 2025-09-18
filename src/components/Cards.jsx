@@ -131,6 +131,7 @@ export function Cards() {
           onClick={() => handleClickCard(i)}
           elevate={mode !== 'fan' && i === mainIndex}
           interactive={mode !== 'focus'}
+          floatActive={mode === 'single' && i === mainIndex}
         />
       ))}
     </group>
@@ -138,113 +139,154 @@ export function Cards() {
 }
 
 // --- Card component (unchanged behavior; now receives a per-card texture) ---
-const Card = memo(({ texture, target, onClick, elevate = false, interactive = true }) => {
-  const meshRef = useRef(null);
-  const matsRef = useRef([]);
-  const [hovered, setHovered] = useState(false);
-  useCursor(Boolean(onClick) && hovered && interactive);
+const Card = memo(
+  ({ texture, target, onClick, elevate = false, interactive = true, floatActive = false }) => {
+    const meshRef = useRef(null);
+    const matsRef = useRef([]);
+    const [hovered, setHovered] = useState(false);
+    useCursor(Boolean(onClick) && hovered && interactive);
 
-  const [frontMat, backMat, edgeMat] = useMemo(() => {
-    const fm = new THREE.MeshStandardMaterial({
-      map: texture,
-      roughness: 0.45,
-      metalness: 0.08,
-      side: THREE.FrontSide,
-      transparent: true,
-      opacity: 1,
-    });
-
-    // Back: mirrored horizontally so text/logos read correctly
-    const backTex = texture.clone();
-    backTex.needsUpdate = true;
-    backTex.wrapS = THREE.RepeatWrapping;
-    backTex.repeat.x = -1;
-    backTex.offset.x = 1;
-
-    const bm = new THREE.MeshStandardMaterial({
-      map: backTex,
-      roughness: 0.45,
-      metalness: 0.08,
-      side: THREE.FrontSide,
-      transparent: true,
-      opacity: 1,
-    });
-
-    const em = new THREE.MeshStandardMaterial({
-      color: '#2a2a2a',
-      roughness: 0.9,
-      metalness: 0.0,
-      side: THREE.DoubleSide,
-      transparent: true,
-      opacity: 1,
-    });
-
-    return [fm, bm, em];
-  }, [texture]);
-
-  matsRef.current = [frontMat, backMat, edgeMat];
-  const initialized = useRef(false);
-
-  useFrame((_, dt) => {
-    const m = meshRef.current;
-    if (!m) return;
-
-    if (!initialized.current) {
-      m.position.copy(target.pos);
-      m.rotation.set(-0.07, target.rotY, 0.03);
-      m.scale.set(target.scale, target.scale, 1);
-      matsRef.current.forEach((mat) => {
-        mat.opacity = target.opacity;
-        mat.depthWrite = target.opacity > 0.99;
+    // --- materials (same as before) ---
+    const [frontMat, backMat, edgeMat] = useMemo(() => {
+      const fm = new THREE.MeshStandardMaterial({
+        map: texture,
+        roughness: 0.45,
+        metalness: 0.08,
+        side: THREE.FrontSide,
+        transparent: true,
+        opacity: 1,
       });
-      initialized.current = true;
-      return;
-    }
 
-    const k = 6;
-    const kO = 4;
-    m.position.lerp(target.pos, 1 - Math.exp(-k * dt));
-    const baseTiltX = elevate ? -0.15 : -0.07;
-    const baseTiltZ = elevate ? 0.08 : 0.03;
-    m.rotation.x = THREE.MathUtils.lerp(m.rotation.x, baseTiltX, 1 - Math.exp(-k * dt));
-    m.rotation.y = THREE.MathUtils.lerp(m.rotation.y, target.rotY, 1 - Math.exp(-k * dt));
-    m.rotation.z = THREE.MathUtils.lerp(m.rotation.z, baseTiltZ, 1 - Math.exp(-k * dt));
+      const backTex = texture.clone();
+      backTex.needsUpdate = true;
+      backTex.wrapS = THREE.RepeatWrapping;
+      backTex.repeat.x = -1;
+      backTex.offset.x = 1;
 
-    const s = new THREE.Vector3(target.scale, target.scale, 1);
-    m.scale.lerp(s, 1 - Math.exp(-k * dt));
+      const bm = new THREE.MeshStandardMaterial({
+        map: backTex,
+        roughness: 0.45,
+        metalness: 0.08,
+        side: THREE.FrontSide,
+        transparent: true,
+        opacity: 1,
+      });
 
-    const nextO = THREE.MathUtils.lerp(
-      matsRef.current[0].opacity,
-      target.opacity,
-      1 - Math.exp(-kO * dt),
-    );
-    matsRef.current.forEach((mat) => {
-      mat.opacity = nextO;
-      mat.transparent = nextO < 1 || hovered;
-      mat.depthWrite = nextO > 0.99;
+      const em = new THREE.MeshStandardMaterial({
+        color: '#2a2a2a',
+        roughness: 0.9,
+        metalness: 0.0,
+        side: THREE.DoubleSide,
+        transparent: true,
+        opacity: 1,
+      });
+
+      return [fm, bm, em];
+    }, [texture]);
+
+    matsRef.current = [frontMat, backMat, edgeMat];
+
+    // scratch vectors to avoid GC
+    const desiredPos = useRef(new THREE.Vector3());
+    const baseScale = useRef(new THREE.Vector3());
+    const initialized = useRef(false);
+
+    // Float tunables
+    const AMP_Y = 0.25; // vertical bob
+    const AMP_X = 0.25; // subtle lateral sway
+    const ROT_Y = 0.1; // gentle yaw
+    const ROT_Z = 0.02; // gentle roll
+    const SCALE_BREATH = 0.1; // 1% scale breathing
+    const SPD = 0.8; // speed multiplier
+
+    useFrame((state, dt) => {
+      const m = meshRef.current;
+      if (!m) return;
+
+      // Compute float offsets (don’t mutate target)
+      const t = state.clock.getElapsedTime() * SPD;
+      const offX = floatActive ? Math.cos(t * 0.9) * AMP_X : 0;
+      const offY = floatActive ? Math.sin(t) * AMP_Y : 0;
+      const rotYOff = floatActive ? Math.sin(t * 0.6) * ROT_Y : 0;
+      const rotZOff = floatActive ? Math.cos(t * 0.7) * ROT_Z : 0;
+      const scaleMul = floatActive ? 1 + Math.sin(t * 0.5) * SCALE_BREATH : 1;
+
+      // Desired pos = target.pos + float offset
+      desiredPos.current.copy(target.pos).addScalar(0); // reset
+      desiredPos.current.x += offX;
+      desiredPos.current.y += offY;
+      desiredPos.current.z += 0; // keep depth stable
+
+      // First frame snap
+      if (!initialized.current) {
+        m.position.copy(desiredPos.current);
+        m.rotation.set(-0.07, target.rotY + rotYOff, 0.03 + rotZOff);
+        m.scale.set(target.scale * scaleMul, target.scale * scaleMul, 1);
+        matsRef.current.forEach((mat) => {
+          mat.opacity = target.opacity;
+          mat.depthWrite = target.opacity > 0.99;
+        });
+        initialized.current = true;
+        return;
+      }
+
+      // Easing
+      const k = 6;
+      const kO = 4;
+
+      // Position
+      m.position.lerp(desiredPos.current, 1 - Math.exp(-k * dt));
+
+      // Rotation (base tilt + float wobble)
+      const baseTiltX = elevate ? -0.15 : -0.07;
+      const baseTiltZ = elevate ? 0.08 : 0.03;
+      m.rotation.x = THREE.MathUtils.lerp(m.rotation.x, baseTiltX, 1 - Math.exp(-k * dt));
+      m.rotation.y = THREE.MathUtils.lerp(
+        m.rotation.y,
+        target.rotY + rotYOff,
+        1 - Math.exp(-k * dt),
+      );
+      m.rotation.z = THREE.MathUtils.lerp(m.rotation.z, baseTiltZ + rotZOff, 1 - Math.exp(-k * dt));
+
+      // Scale (breathing)
+      baseScale.current.set(target.scale * scaleMul, target.scale * scaleMul, 1);
+      m.scale.lerp(baseScale.current, 1 - Math.exp(-k * dt));
+
+      // Opacity
+      const nextO = THREE.MathUtils.lerp(
+        matsRef.current[0].opacity,
+        target.opacity,
+        1 - Math.exp(-kO * dt),
+      );
+      matsRef.current.forEach((mat) => {
+        mat.opacity = nextO;
+        mat.transparent = nextO < 1 || hovered;
+        mat.depthWrite = nextO > 0.99;
+      });
+
+      // Disable raycast when invisible or during transitions
+      m.raycast = nextO < 0.15 || !interactive ? () => {} : THREE.Mesh.prototype.raycast;
     });
 
-    m.raycast = nextO < 0.15 || !interactive ? () => {} : THREE.Mesh.prototype.raycast;
-  });
+    const materials = useMemo(
+      () => [edgeMat, edgeMat, edgeMat, edgeMat, frontMat, backMat],
+      [frontMat, backMat, edgeMat],
+    );
 
-  const materials = useMemo(
-    () => [edgeMat, edgeMat, edgeMat, edgeMat, frontMat, backMat],
-    [frontMat, backMat, edgeMat],
-  );
-
-  return (
-    <mesh
-      ref={meshRef}
-      material={materials}
-      onClick={interactive ? onClick : undefined}
-      onPointerOver={() => interactive && setHovered(true)}
-      onPointerOut={() => setHovered(false)}>
-      <boxGeometry args={[CARD_W, CARD_H, CARD_D]} />
-      {elevate && (
-        <group position={[0, 0, CARD_D / 2 + 0.2]}>
-          <pointLight intensity={1.2} distance={50} decay={1.2} />
-        </group>
-      )}
-    </mesh>
-  );
-});
+    return (
+      <mesh
+        ref={meshRef}
+        material={materials}
+        onClick={interactive ? onClick : undefined}
+        onPointerOver={() => interactive && setHovered(true)}
+        onPointerOut={() => setHovered(false)}>
+        <boxGeometry args={[CARD_W, CARD_H, CARD_D]} />
+        {elevate && (
+          <group position={[0, 0, CARD_D / 2 + 0.2]}>
+            <pointLight intensity={1.2} distance={50} decay={1.2} />
+          </group>
+        )}
+      </mesh>
+    );
+  },
+);
