@@ -31,8 +31,8 @@ export default function UIOverlay() {
       <div className="pointer-events-none fixed left-3 top-3 lg:left-6 lg:top-6">
         <h1
           className="
-            font-sp mt-6 uppercase tracking-wide text-white text-outline-soft
-            text-2xl sm:text-2xl md:text-4xl lg:text-4xl
+            font-sp mt-7 uppercase tracking-wide text-white text-outline-soft
+            sm:text-lg md:text-4xl lg:text-4xl
           ">
           Welcome to MEME PARK!
         </h1>
