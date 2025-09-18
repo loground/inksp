@@ -72,13 +72,12 @@ export const Experience = ({ ...props }) => {
       {/* SCENE with responsive transforms */}
       <Cards />
 
-      {/* <Background /> */}
-      {/* <Background /> */}
+      <Background />
     </group>
   );
 };
 export const Background = () => {
-  const map = useTexture('/classroom.avif');
+  const map = useTexture('/last.webp');
 
   // Flip horizontally
   map.wrapS = THREE.RepeatWrapping;
