@@ -29,7 +29,7 @@ export function Cards() {
 
   // Your existing state/modes
   const [mainIndex, setMainIndex] = useState(0);
-  const [mode, setMode] = useState('single');
+  const [mode, setMode] = useState('fan');
 
   const singleTarget = useMemo(
     () => ({ pos: new THREE.Vector3(0, 0, 0), rotY: 0, scale: 25, opacity: 1 }),
