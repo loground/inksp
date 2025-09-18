@@ -40,7 +40,7 @@ export default function AudioButton() {
         "
         aria-label={playing ? 'Pause' : 'Play'}>
         <img
-          src={playing ? '/icons/pause.png' : '/icons/play.png'}
+          src={playing ? '/icons/pause.png' : '/icons/play2.png'}
           alt={playing ? 'Pause' : 'Play'}
           className="h-30 w-30"
         />

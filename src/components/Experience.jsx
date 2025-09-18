@@ -33,14 +33,22 @@ export const Experience = ({ ...props }) => {
               min: 200,
               max: 420,
               minPolar: -180,
-              maxPolar: 180,
+              maxPolar: 90,
               fov: 70,
+              minAz: -95,
+              maxAz: 95,
             },
-            MainScene: { scale: 11, position: [18, -5, 0], rotationY: Math.PI / 5 },
           }
         : {
-            camera: { min: 140, max: 300, minPolar: -180, maxPolar: 180, fov: 80 },
-            MainScene: { scale: 11, position: [18, -5, 0], rotationY: Math.PI / 5 },
+            camera: {
+              min: 140,
+              max: 300,
+              minPolar: -180,
+              maxPolar: 90,
+              fov: 80,
+              minAz: -60,
+              maxAz: 60,
+            },
           },
     [isMobile],
   );
@@ -52,6 +60,8 @@ export const Experience = ({ ...props }) => {
         maxDistance={layout.camera.max}
         minPolarAngle={degToRad(layout.camera.minPolar)}
         maxPolarAngle={degToRad(layout.camera.maxPolar)}
+        minAzimuthAngle={degToRad(layout.camera.minAz)}
+        maxAzimuthAngle={degToRad(layout.camera.maxAz)}
       />
 
       {/* LIGHTS */}
