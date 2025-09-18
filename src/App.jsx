@@ -9,6 +9,7 @@ import './index.css';
 import LoaderOverlay from './components/Loader';
 
 import AudioButton from './components/AudioButton';
+import UIOverlay from './components/Overlay';
 
 function App() {
   // active === true while assets are loading (incl. <Preload all />)
@@ -29,6 +30,7 @@ function App() {
       {!isLoading && (
         <>
           <AudioButton />
+          <UIOverlay />
         </>
       )}
     </>
