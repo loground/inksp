@@ -6,6 +6,7 @@ import { degToRad } from 'three/src/math/MathUtils.js';
 import { useThree } from '@react-three/fiber';
 import { useMemo } from 'react';
 import { Cards } from './Cards';
+import { CardsMobile } from './Cardsmobile';
 
 const depthMaterial = new MeshDepthMaterial();
 depthMaterial.depthPacking = THREE.RGBADepthPacking;
@@ -70,7 +71,7 @@ export const Experience = ({ ...props }) => {
       <directionalLight position={[-15, 5, -15]} intensity={1.2} color="skyblue" />
 
       {/* SCENE with responsive transforms */}
-      <Cards />
+      {isMobile ? <CardsMobile /> : <Cards />}
 
       <Background />
     </group>
