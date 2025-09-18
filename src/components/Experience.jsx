@@ -1,5 +1,6 @@
 // Experience.jsx
-import { CameraControls, Environment, useTexture } from '@react-three/drei';
+import { Environment, useTexture, OrbitControls } from '@react-three/drei';
+
 import * as THREE from 'three';
 import { MeshDepthMaterial } from 'three';
 import { degToRad } from 'three/src/math/MathUtils.js';
@@ -56,7 +57,8 @@ export const Experience = ({ ...props }) => {
 
   return (
     <group {...props}>
-      <CameraControls
+      <OrbitControls
+        enablePan={false}
         minDistance={layout.camera.min}
         maxDistance={layout.camera.max}
         minPolarAngle={degToRad(layout.camera.minPolar)}
