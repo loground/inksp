@@ -10,7 +10,7 @@ const CARD_D = 0.15;
 
 export function Cards() {
   // 1) Build the URL list: /cards/common1.avif ... /cards/common50.avif
-  const COUNT = 50; // set how many cards you want to show
+  const COUNT = 60; // set how many cards you want to show
   const urls = useMemo(
     () => Array.from({ length: COUNT }, (_, i) => `/webp/common${i + 1}.webp`),
     [COUNT],
@@ -37,7 +37,7 @@ export function Cards() {
   );
 
   const fanTargets = useMemo(() => {
-    const cols = Math.ceil(Math.sqrt(COUNT * 2));
+    const cols = 10;
     const rows = Math.ceil(COUNT / cols);
     const spacing = 1.2;
     const baseScale = 5;
