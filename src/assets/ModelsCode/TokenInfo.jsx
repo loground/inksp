@@ -10,6 +10,7 @@ export function TokenBackground({ uProgression = 0, ...props }) {
   return (
     <group {...props} dispose={null} scale={35} position-y={-200}>
       <TowelieAnim />
+
       <mesh
         castShadow
         receiveShadow
@@ -55,6 +56,7 @@ export function TokenBackground({ uProgression = 0, ...props }) {
         rotation={[0.247, 0.191, 0.281]}
         scale={0.707}
       />
+
       <group position={[-6.421, 5.098, 0.777]} rotation={[0.247, 0.191, 0.281]} scale={0.656}>
         <mesh
           castShadow
@@ -69,6 +71,7 @@ export function TokenBackground({ uProgression = 0, ...props }) {
           material={materials.hat2}
         />
       </group>
+
       <mesh
         castShadow
         receiveShadow
@@ -118,6 +121,7 @@ export function TokenBackground({ uProgression = 0, ...props }) {
         position={[-4.546, 0.531, -0.334]}
         scale={0.836}
       />
+
       <group position={[-0.033, 0.413, -0.075]} scale={3.594}>
         <mesh
           castShadow
