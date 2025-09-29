@@ -23,7 +23,7 @@ const depthMaterial = new MeshDepthMaterial();
 depthMaterial.depthPacking = THREE.RGBADepthPacking;
 depthMaterial.blending = THREE.NoBlending;
 
-const IN_OUT_DURATION = 1.2;
+const IN_OUT_DURATION = 2.2;
 const LOADING_DELAY = 2000;
 
 const ScreenTransitionMaterial = shaderMaterial(
@@ -73,18 +73,16 @@ extend({ ScreenTransitionMaterial });
 
 const ScreenTransition = ({ uProgression }) => {
   const materialRef = useRef();
+  const { size } = useThree();
 
   useEffect(() => {
     if (materialRef.current) {
       materialRef.current.uniforms.uProgression.value = uProgression;
+      materialRef.current.uniforms.uResolution.value = [size.width, size.height];
     }
-  }, [uProgression]);
+  }, [uProgression, size.width, size.height]);
 
-  useFrame(() => {
-    if (materialRef.current) {
-      materialRef.current.uniforms.uResolution.value = [window.innerWidth, window.innerHeight];
-    }
-  });
+  // No useFrame needed—resolution updates only on size change or progression
 
   if (Math.abs(uProgression - 1) < 0.01) return null;
 
