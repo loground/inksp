@@ -229,7 +229,15 @@ export const Experience = ({ ...props }) => {
       <directionalLight position={[-15, 5, -15]} intensity={1.2} color="skyblue" />
 
       {/* SCENES — instant switch during hold, covered by transition */}
-      {mode === 'cards' ? isMobile ? <CardsMobile /> : <Cards /> : <TokenBackground />}
+      {mode === 'cards' ? (
+        isMobile ? (
+          <CardsMobile />
+        ) : (
+          <Cards />
+        )
+      ) : (
+        <TokenBackground uProgression={uProgression} />
+      )}
 
       {/* Global background stays */}
       <Background />

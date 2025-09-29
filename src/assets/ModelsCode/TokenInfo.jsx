@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useGLTF, useCursor } from '@react-three/drei';
 import { ChartInScene } from './Chart';
 import { TowelieAnim } from './Towelie';
-export function TokenBackground(props) {
+export function TokenBackground({ uProgression = 0, ...props }) {
   const { nodes, materials } = useGLTF('/models/mr_garrison4-opt.glb');
   const [hovered, setHovered] = useState(false);
   useCursor(hovered); // 👈 sets cursor: pointer when hovered
@@ -142,7 +142,7 @@ export function TokenBackground(props) {
         scale={3.594}
       />
       <group position={[-1.3, 5.275, -3.669]} scale={1.5}>
-        <ChartInScene />
+        <ChartInScene uProgression={uProgression} />
       </group>
       <mesh
         castShadow

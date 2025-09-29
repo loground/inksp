@@ -122,8 +122,9 @@ function ParkDexChart() {
   );
 }
 
-export function ChartInScene() {
+export function ChartInScene({ uProgression = 0 }) {
   const [interactive, setInteractive] = React.useState(false);
+  const opacity = uProgression;
 
   return (
     <>
@@ -133,7 +134,7 @@ export function ChartInScene() {
         transform
         position={[5.2, -1.7, -3.669]} // slight offset above the desk
         zIndexRange={[10, 0]} // above the chart's Html so it’s always tappable
-      >
+        style={{ opacity }}>
         <button
           onClick={() => setInteractive((v) => !v)}
           className={`px-2 py-2 font-sp text-[10px] rounded-md border
@@ -157,7 +158,10 @@ export function ChartInScene() {
         distanceFactor={1}
         scale={2.5} // Reduced scale to prevent oversized overlay
         position={[0, 0, 0]} // Relative to the parent group
-        style={{ pointerEvents: interactive ? 'auto' : 'none' }} // gate pointer events
+        style={{
+          pointerEvents: interactive ? 'auto' : 'none',
+          opacity,
+        }} // gate pointer events
         onOcclude={(hidden) => {
           // if something occludes the screen, auto-disable interaction
           if (hidden) setInteractive(false);
