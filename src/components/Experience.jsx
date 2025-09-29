@@ -240,12 +240,12 @@ export const Experience = ({ ...props }) => {
       <ScreenTransition uProgression={uProgression} />
 
       {/* Switcher UI — centered, 20% from bottom */}
-      <Html fullscreen>
+      <Html position-y={-180}>
         <div
           style={{
             position: 'absolute',
             left: '50%',
-            bottom: '20%',
+            bottom: '10%',
             transform: 'translateX(-50%)',
             pointerEvents: 'auto',
           }}>
