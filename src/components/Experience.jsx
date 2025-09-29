@@ -110,7 +110,7 @@ function useIsMobile() {
 function useLayouts(isMobile) {
   const cards = isMobile
     ? { min: 200, max: 420, minPolar: -180, maxPolar: 90, fov: 75, minAz: -95, maxAz: 95 }
-    : { min: 140, max: 300, minPolar: -180, maxPolar: 90, fov: 75, minAz: -60, maxAz: 60 };
+    : { min: 140, max: 300, minPolar: -190, maxPolar: 90, fov: 75, minAz: -60, maxAz: 60 };
 
   // Token mode: a bit tighter distance and azimuth to focus the info
   const token = isMobile

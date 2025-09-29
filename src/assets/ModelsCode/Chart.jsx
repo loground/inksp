@@ -56,7 +56,7 @@ function ParkDexChart() {
     '';
 
   return (
-    <div className="w-[90vw] h-[60vh] max-w-[800px] max-h-[600px] relative rounded-none border-4 border-black bg-black">
+    <div className="w-[140vw] h-[60vh] max-w-[800px] max-h-[600px] relative rounded-none border-4 border-black bg-black">
       {/* red header bar - scaled down */}
       <div className="mb-1 flex items-center justify-between ">
         <div className="flex items-center gap-1">
