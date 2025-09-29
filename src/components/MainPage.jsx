@@ -1,15 +1,15 @@
 // App.tsx / App.jsx
 import { Canvas } from '@react-three/fiber';
-import { Experience } from '../components/Experience';
+import { Experience } from './Experience';
 import { Preload, useProgress } from '@react-three/drei';
 import { Suspense } from 'react';
 
 import '../index.css';
 
-import LoaderOverlay from '../components/Loader';
+import LoaderOverlay from './Loader';
 
-import AudioButton from '../components/AudioButton';
-import UIOverlay from '../components/Overlay';
+import AudioButton from './AudioButton';
+import UIOverlay from './Overlay';
 
 function MainScreen() {
   // active === true while assets are loading (incl. <Preload all />)

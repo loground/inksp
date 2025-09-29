@@ -23,7 +23,8 @@ const depthMaterial = new MeshDepthMaterial();
 depthMaterial.depthPacking = THREE.RGBADepthPacking;
 depthMaterial.blending = THREE.NoBlending;
 
-const TRANSITION_DURATION = 0.5;
+const IN_OUT_DURATION = 1.2;
+const LOADING_DELAY = 2000;
 
 const ScreenTransitionMaterial = shaderMaterial(
   {
@@ -70,42 +71,29 @@ const ScreenTransitionMaterial = shaderMaterial(
 
 extend({ ScreenTransitionMaterial });
 
-const ScreenTransition = ({ transition }) => {
-  const transitionMaterial = useRef();
-  const transitionData = useRef({
-    from: 0,
-    to: 0,
-    started: 0,
-  });
+const ScreenTransition = ({ uProgression }) => {
+  const materialRef = useRef();
 
   useEffect(() => {
-    transitionData.current.from = transition && transitionData.current.started ? 1 : 0;
-    transitionData.current.to = transition ? 0 : 1;
-    transitionData.current.started = new Date().getTime();
-  }, [transition]);
+    if (materialRef.current) {
+      materialRef.current.uniforms.uProgression.value = uProgression;
+    }
+  }, [uProgression]);
 
   useFrame(() => {
-    if (!transitionMaterial.current) {
-      return;
+    if (materialRef.current) {
+      materialRef.current.uniforms.uResolution.value = [window.innerWidth, window.innerHeight];
     }
-    const elapsed =
-      (new Date().getTime() - transitionData.current.started) / (TRANSITION_DURATION * 1000);
-    transitionMaterial.current.uniforms.uProgression.value = MathUtils.lerp(
-      transitionData.current.from,
-      transitionData.current.to,
-      Math.min(elapsed, 1),
-    );
-    transitionMaterial.current.uniforms.uResolution.value = [window.innerWidth, window.innerHeight];
   });
 
-  if (!transition) return null;
+  if (Math.abs(uProgression - 1) < 0.01) return null;
 
   return (
     <Hud>
       <OrthographicCamera makeDefault top={1} right={1} bottom={-1} left={-1} near={0} far={1} />
       <mesh>
         <planeGeometry args={[2, 2]} />
-        <screenTransitionMaterial ref={transitionMaterial} transparent uColor={new Color('pink')} />
+        <screenTransitionMaterial ref={materialRef} transparent uColor={new Color('pink')} />
       </mesh>
     </Hud>
   );
@@ -140,20 +128,65 @@ export const Experience = ({ ...props }) => {
 
   // 'cards' | 'token'
   const [mode, setMode] = useState('cards');
-  const [transition, setTransition] = useState(false);
-
-  const durationMs = TRANSITION_DURATION * 1000;
+  const [pendingMode, setPendingMode] = useState(null);
+  const [phase, setPhase] = useState('idle');
+  const [uProgression, setUProgression] = useState(1);
+  const [currentStartTime, setCurrentStartTime] = useState(0);
+  const [ready, setReady] = useState(true);
+  const [lastMode, setLastMode] = useState('cards');
 
   const handleSetMode = (newMode) => {
     if (newMode === mode) return;
-    setTransition(true);
-    setTimeout(() => {
-      setMode(newMode);
-    }, durationMs / 2);
-    setTimeout(() => {
-      setTransition(false);
-    }, durationMs);
+    setPendingMode(newMode);
+    setPhase('covering');
+    setCurrentStartTime(Date.now());
   };
+
+  // Simulate model loading delay after mode change
+  useEffect(() => {
+    if (mode !== lastMode) {
+      setTimeout(() => setReady(true), LOADING_DELAY);
+      setLastMode(mode);
+    }
+  }, [mode, lastMode]);
+
+  useFrame(() => {
+    const now = Date.now();
+    const elapsed = (now - currentStartTime) / 1000;
+
+    switch (phase) {
+      case 'covering':
+        const coverProg = Math.max(0, 1 - elapsed / IN_OUT_DURATION);
+        setUProgression(coverProg);
+        if (coverProg <= 0) {
+          setMode(pendingMode);
+          setPendingMode(null);
+          setPhase('holding');
+          setReady(false);
+        }
+        break;
+      case 'holding':
+        setUProgression(0);
+        if (ready) {
+          setPhase('uncovering');
+          setCurrentStartTime(now);
+        }
+        break;
+      case 'uncovering':
+        const uncoverProg = Math.min(1, elapsed / IN_OUT_DURATION);
+        setUProgression(uncoverProg);
+        if (uncoverProg >= 1) {
+          setUProgression(1);
+          setPhase('idle');
+        }
+        break;
+      case 'idle':
+        setUProgression(1);
+        break;
+      default:
+        break;
+    }
+  });
 
   // Set fixed FOV
   useEffect(() => {
@@ -197,14 +230,14 @@ export const Experience = ({ ...props }) => {
       <pointLight position={[12, 5, 12]} intensity={1.2} decay={0.8} distance={100} color="white" />
       <directionalLight position={[-15, 5, -15]} intensity={1.2} color="skyblue" />
 
-      {/* SCENES — instant switch, covered by transition */}
+      {/* SCENES — instant switch during hold, covered by transition */}
       {mode === 'cards' ? isMobile ? <CardsMobile /> : <Cards /> : <TokenBackground />}
 
       {/* Global background stays */}
       <Background />
 
       {/* Transition overlay */}
-      <ScreenTransition transition={transition} />
+      <ScreenTransition uProgression={uProgression} />
 
       {/* Switcher UI — centered, 20% from bottom */}
       <Html fullscreen>
