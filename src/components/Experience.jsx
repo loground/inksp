@@ -252,15 +252,15 @@ export const Experience = ({ ...props }) => {
           <div className="flex items-center ">
             <button
               onClick={() => handleSetMode('cards')}
-              className={`px-4 py-2 text-sm font-sp transition ${
-                mode === 'cards' ? 'text-white' : 'text-white/30  hover:text-white'
+              className={`px-4 py-2 text-xl text-outline-soft font-sp transition ${
+                mode === 'cards' ? 'text-yellow-300' : 'text-white  hover:text-yellow-300'
               }`}>
               Cards
             </button>
             <button
               onClick={() => handleSetMode('token')}
-              className={`px-4 py-2 text-sm font-sp rounded-r-full transition ${
-                mode === 'token' ? ' text-white' : 'text-white/30  hover:text-white'
+              className={`px-4 py-2 text-xl text-outline-soft font-sp rounded-r-full transition ${
+                mode === 'token' ? ' text-yellow-300' : 'text-white  hover:text-yellow-300'
               }`}>
               Token
             </button>
