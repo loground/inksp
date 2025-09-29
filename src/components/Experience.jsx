@@ -249,18 +249,18 @@ export const Experience = ({ ...props }) => {
             transform: 'translateX(-50%)',
             pointerEvents: 'auto',
           }}>
-          <div className="flex items-center rounded-full bg-white/10 border border-white/20 backdrop-blur">
+          <div className="flex items-center ">
             <button
               onClick={() => handleSetMode('cards')}
-              className={`px-4 py-2 text-sm rounded-l-full transition ${
-                mode === 'cards' ? 'bg-white/20 text-white' : 'text-white/70 hover:text-white'
+              className={`px-4 py-2 text-sm font-sp transition ${
+                mode === 'cards' ? 'text-white' : 'text-white/30  hover:text-white'
               }`}>
               Cards
             </button>
             <button
               onClick={() => handleSetMode('token')}
-              className={`px-4 py-2 text-sm rounded-r-full transition ${
-                mode === 'token' ? 'bg-white/20 text-white' : 'text-white/70 hover:text-white'
+              className={`px-4 py-2 text-sm font-sp rounded-r-full transition ${
+                mode === 'token' ? ' text-white' : 'text-white/30  hover:text-white'
               }`}>
               Token
             </button>

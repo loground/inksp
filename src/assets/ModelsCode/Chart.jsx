@@ -136,7 +136,7 @@ export function ChartInScene() {
       >
         <button
           onClick={() => setInteractive((v) => !v)}
-          className={`px-2 py-1 text-[10px] rounded-md border
+          className={`px-2 py-2 font-sp text-[10px] rounded-md border
               ${
                 interactive
                   ? 'bg-green-600 border-white text-white'
@@ -144,7 +144,7 @@ export function ChartInScene() {
               }
             `}
           title={interactive ? 'Disable chart interactions' : 'Enable chart interactions'}>
-          {interactive ? 'Chart: ON' : 'Chart: OFF'}
+          {interactive ? 'Use Chart: ON' : 'Use Chart: OFF'}
         </button>
       </Html>
 

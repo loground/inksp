@@ -8,7 +8,7 @@ export function TokenBackground(props) {
   useCursor(hovered); // 👈 sets cursor: pointer when hovered
 
   return (
-    <group {...props} dispose={null} scale={35} position-y={-150}>
+    <group {...props} dispose={null} scale={35} position-y={-200}>
       <TowelieAnim />
       <mesh
         castShadow
@@ -126,6 +126,7 @@ export function TokenBackground(props) {
           material={materials.class1}
         />
         <mesh
+          scale={3}
           castShadow
           receiveShadow
           geometry={nodes.Plane005_1.geometry}
