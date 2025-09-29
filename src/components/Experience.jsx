@@ -107,7 +107,7 @@ function useIsMobile() {
 // Per-mode camera/controls presets (tweak as you like)
 function useLayouts(isMobile) {
   const cards = isMobile
-    ? { min: 200, max: 420, minPolar: -180, maxPolar: 90, fov: 75, minAz: -25, maxAz: 25 }
+    ? { min: 280, max: 420, minPolar: -180, maxPolar: 90, fov: 75, minAz: -25, maxAz: 25 }
     : { min: 140, max: 300, minPolar: -190, maxPolar: 90, fov: 75, minAz: -60, maxAz: 60 };
 
   // Token mode: a bit tighter distance and azimuth to focus the info
