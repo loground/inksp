@@ -44,7 +44,7 @@ export function TowelieAnim({ actionName, playbackRate = 1, ...props }) {
   // mixer.timeScale = 1; // running; set to 0 to pause everything
 
   return (
-    <group ref={group} {...props} dispose={null} scale={0.5} rotation-y={Math.PI}>
+    <group ref={group} {...props} dispose={null} scale={0.55} rotation-y={Math.PI}>
       <group name="Sketchfab_Scene">
         {/* If your GLB has a skeleton root joint, keep it */}
         {nodes._rootJoint && <primitive object={nodes._rootJoint} />}

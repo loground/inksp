@@ -124,7 +124,7 @@ function ParkDexChart() {
 
 export function ChartInScene({ uProgression = 0 }) {
   const [interactive, setInteractive] = React.useState(false);
-  const opacity = uProgression;
+  const opacity = Math.abs(uProgression - 1) < 0.01 ? 1 : 0;
 
   return (
     <>
