@@ -46,7 +46,7 @@ function ParkDexChart() {
   // Build iframe src with params for cleaner chart view (hides info/chat panels)
   const iframeSrc = useMemo(() => {
     if (!chosen) return null;
-    return `https://dexscreener.com/${chosen.chainId}/${chosen.pairAddress}?embed=1&theme=dark&info=0&chat=0`;
+    return `https://dexscreener.com/${chosen.chainId}/${chosen.pairAddress}?embed=1&theme=dark&info=0&chat=0&trades=0`;
   }, [chosen]);
 
   // External open target
