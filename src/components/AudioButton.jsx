@@ -25,7 +25,7 @@ export default function AudioButton() {
 
   return (
     <>
-      {/* Keep audio element around but hidden */}
+      {/* Hidden audio element */}
       <audio ref={audioRef} src="/song/MemePark.mp3" preload="none" loop />
 
       <motion.button
@@ -36,28 +36,23 @@ export default function AudioButton() {
         aria-pressed={playing}
         aria-label={playing ? 'Pause' : 'Play'}
         className="
-    fixed top-3 right-3 z-[9999]
-    inline-flex items-center justify-center
-    h-20 w-20 lg:h-32 lg:w-32
-   
-    transition-all duration-200
-    select-none
-  ">
+          fixed top-3 right-3 z-[9999]
+          inline-flex items-center justify-center
+          h-20 w-20 lg:h-32 lg:w-32
+          transition-all duration-200
+          select-none
+        ">
         <AnimatePresence mode="wait" initial={false}>
-          <motion.span
+          <motion.img
             key={playing ? 'pause' : 'play'}
+            src={playing ? '/PAUSE.webp' : '/PLAY.webp'}
+            alt={playing ? 'Pause' : 'Play'}
             initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -6 }}
             transition={{ duration: 0.18, ease: 'easeOut' }}
-            className="
-        font-sp sp-font  
-        uppercase tracking-wide
-        text-white hover:text-yellow-300
-        text-2xl text-outline-soft
-      ">
-            {playing ? 'Pause' : 'Play'}
-          </motion.span>
+            className="h-full w-full object-contain"
+          />
         </AnimatePresence>
       </motion.button>
     </>

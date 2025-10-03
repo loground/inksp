@@ -16,7 +16,7 @@ const SLIDE_X = CARD_W * 0.5;
 const ease = (x) => (x <= 0 ? 0 : x >= 1 ? 1 : x * x * (3 - 2 * x));
 
 export function CardsMobile() {
-  const COUNT = 50;
+  const COUNT = 70;
   const urls = useMemo(
     () => Array.from({ length: COUNT }, (_, i) => `/webp/common${i + 1}.webp`),
     [COUNT],
