@@ -270,6 +270,15 @@ export const Experience = ({ ...props }) => {
               }`}>
               Token
             </button>
+            <a
+              href="https://manifold.xyz/@ignatev_ink/id/4133746928"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`px-4 py-2 text-lg text-outline-soft font-sp rounded-r-full transition ${
+                mode === 'token' ? 'text-yellow-300' : 'text-white hover:text-yellow-300'
+              }`}>
+              EPISODE1
+            </a>
           </div>
         </div>
       </Html>
