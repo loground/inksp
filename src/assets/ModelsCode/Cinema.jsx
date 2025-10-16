@@ -89,12 +89,12 @@ function VideoScreen({ src = '/movie.mp4', width = 10, aspect = 16 / 9, ...props
         <div className="flex gap-2 items-center justify-center">
           <button
             onClick={togglePlay}
-            className="px-4 text-3xl font-sp py-1 text-white hover:text-yellow-300 rounded-lg text-outline-soft transition">
+            className="px-4 text-xl md:text-3xl font-sp py-1 text-white hover:text-yellow-300 rounded-lg text-outline-soft transition">
             {playing ? 'Pause' : 'Play'}
           </button>
           <button
             onClick={() => window.open('https://manifold.xyz/@ignatev_ink/id/4133746928', '_blank')}
-            className="px-4 text-3xl font-sp py-1 text-white rounded-lg text-outline-soft hover:text-yellow-300 transition">
+            className="px-4  text-xl md:text-3xl font-sp py-1 text-white rounded-lg text-outline-soft hover:text-yellow-300 transition">
             Mint
           </button>
         </div>
