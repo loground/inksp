@@ -10,14 +10,15 @@ import {
 } from '@react-three/drei';
 import * as THREE from 'three';
 import { MeshDepthMaterial } from 'three';
-import { degToRad, MathUtils } from 'three/src/math/MathUtils.js';
+import { degToRad } from 'three/src/math/MathUtils.js';
 import { extend, useFrame, useThree } from '@react-three/fiber';
-import { useEffect, useMemo, useState, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { Color } from 'three';
 
 import { Cards } from './Cards';
 import { CardsMobile } from './Cardsmobile';
 import { TokenBackground } from '../assets/ModelsCode/TokenInfo';
+import { Cinema } from '../assets/ModelsCode/Cinema';
 
 const depthMaterial = new MeshDepthMaterial();
 depthMaterial.depthPacking = THREE.RGBADepthPacking;
@@ -82,8 +83,6 @@ const ScreenTransition = ({ uProgression }) => {
     }
   }, [uProgression, size.width, size.height]);
 
-  // No useFrame needed—resolution updates only on size change or progression
-
   if (Math.abs(uProgression - 1) < 0.01) return null;
 
   return (
@@ -98,71 +97,79 @@ const ScreenTransition = ({ uProgression }) => {
 };
 
 const MOBILE_BP = 768;
-
 function useIsMobile() {
   const { size } = useThree();
   return size.width <= MOBILE_BP;
 }
 
-// Per-mode camera/controls presets (tweak as you like)
+// Per-mode camera/controls presets
 function useLayouts(isMobile) {
   const cards = isMobile
     ? { min: 280, max: 420, minPolar: -180, maxPolar: 90, fov: 75, minAz: -35, maxAz: 35 }
     : { min: 140, max: 300, minPolar: -190, maxPolar: 90, fov: 75, minAz: -60, maxAz: 60 };
 
-  // Token mode: a bit tighter distance and azimuth to focus the info
   const token = isMobile
     ? { min: 160, max: 320, minPolar: -160, maxPolar: 85, fov: 75, minAz: -55, maxAz: 55 }
     : { min: 110, max: 220, minPolar: -160, maxPolar: 85, fov: 75, minAz: -40, maxAz: 40 };
 
-  return { cards, token };
+  // Cinema: a bit farther back by default (big room), slightly tighter azimuth
+  const cinema = isMobile
+    ? { min: 220, max: 420, minPolar: -170, maxPolar: 88, fov: 75, minAz: -40, maxAz: 40 }
+    : { min: 180, max: 360, minPolar: -170, maxPolar: 88, fov: 75, minAz: -30, maxAz: 30 };
+
+  return { cards, token, cinema };
 }
 
 export const Experience = ({ ...props }) => {
   const isMobile = useIsMobile();
   const { camera } = useThree();
-  const { cards, token } = useLayouts(isMobile);
+  const { cards, token, cinema } = useLayouts(isMobile);
   const controlsRef = useRef();
 
-  // 'cards' | 'token'
+  // modes: 'cards' | 'token' | 'cinema'
   const [mode, setMode] = useState('cards');
   const [pendingMode, setPendingMode] = useState(null);
-  const [phase, setPhase] = useState('idle');
+  const [phase, setPhase] = useState('idle'); // 'covering' | 'holding' | 'uncovering' | 'idle'
   const [uProgression, setUProgression] = useState(1);
   const [currentStartTime, setCurrentStartTime] = useState(0);
   const [ready, setReady] = useState(true);
-  const [lastMode, setLastMode] = useState('cards');
+
+  const timerRef = useRef(null);
+  useEffect(() => {
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current);
+    };
+  }, []);
 
   const handleSetMode = (newMode) => {
-    if (newMode === mode) return;
+    if (newMode === mode || phase === 'covering' || phase === 'uncovering' || phase === 'holding')
+      return;
     setPendingMode(newMode);
     setPhase('covering');
     setCurrentStartTime(Date.now());
   };
-
-  // Simulate model loading delay after mode change
-  useEffect(() => {
-    if (mode !== lastMode) {
-      setTimeout(() => setReady(true), LOADING_DELAY);
-      setLastMode(mode);
-    }
-  }, [mode, lastMode]);
 
   useFrame(() => {
     const now = Date.now();
     const elapsed = (now - currentStartTime) / 1000;
 
     switch (phase) {
-      case 'covering':
+      case 'covering': {
         const coverProg = Math.max(0, 1 - elapsed / IN_OUT_DURATION);
         setUProgression(coverProg);
         if (coverProg <= 0) {
+          // Swap scene and arm loading timer RIGHT HERE
           setMode(pendingMode);
           setPendingMode(null);
           setPhase('holding');
+          setCurrentStartTime(now);
+
           setReady(false);
+          if (timerRef.current) clearTimeout(timerRef.current);
+          timerRef.current = setTimeout(() => setReady(true), LOADING_DELAY);
         }
         break;
+      }
       case 'holding':
         setUProgression(0);
         if (ready) {
@@ -170,7 +177,7 @@ export const Experience = ({ ...props }) => {
           setCurrentStartTime(now);
         }
         break;
-      case 'uncovering':
+      case 'uncovering': {
         const uncoverProg = Math.min(1, elapsed / IN_OUT_DURATION);
         setUProgression(uncoverProg);
         if (uncoverProg >= 1) {
@@ -178,23 +185,23 @@ export const Experience = ({ ...props }) => {
           setPhase('idle');
         }
         break;
+      }
       case 'idle':
-        setUProgression(1);
-        break;
       default:
+        setUProgression(1);
         break;
     }
   });
 
-  // Set fixed FOV
+  // Fixed FOV
   useEffect(() => {
     camera.fov = 75;
     camera.updateProjectionMatrix();
   }, [camera]);
 
-  // On mode change, update controls limits dynamically (no remount)
+  // Update controls per-mode without remounting
   useEffect(() => {
-    const ctrl = mode === 'cards' ? cards : token;
+    const ctrl = mode === 'cards' ? cards : mode === 'token' ? token : cinema;
     if (controlsRef.current) {
       controlsRef.current.minDistance = ctrl.min;
       controlsRef.current.maxDistance = ctrl.max;
@@ -203,49 +210,45 @@ export const Experience = ({ ...props }) => {
       controlsRef.current.minAzimuthAngle = degToRad(ctrl.minAz);
       controlsRef.current.maxAzimuthAngle = degToRad(ctrl.maxAz);
     }
-  }, [mode, cards, token]);
+  }, [mode, cards, token, cinema]);
 
-  // Initial controls setup (use cards as default)
+  // Initial controls setup (cards by default)
   useEffect(() => {
-    const ctrl = cards;
-    if (controlsRef.current) {
-      controlsRef.current.minDistance = ctrl.min;
-      controlsRef.current.maxDistance = ctrl.max;
-      controlsRef.current.minPolarAngle = degToRad(ctrl.minPolar);
-      controlsRef.current.maxPolarAngle = degToRad(ctrl.maxPolar);
-      controlsRef.current.minAzimuthAngle = degToRad(ctrl.minAz);
-      controlsRef.current.maxAzimuthAngle = degToRad(ctrl.maxAz);
-    }
+    if (!controlsRef.current) return;
+    controlsRef.current.minDistance = cards.min;
+    controlsRef.current.maxDistance = cards.max;
+    controlsRef.current.minPolarAngle = degToRad(cards.minPolar);
+    controlsRef.current.maxPolarAngle = degToRad(cards.maxPolar);
+    controlsRef.current.minAzimuthAngle = degToRad(cards.minAz);
+    controlsRef.current.maxAzimuthAngle = degToRad(cards.maxAz);
   }, [cards]);
+
+  const renderScene = () => {
+    if (mode === 'cards') return isMobile ? <CardsMobile /> : <Cards />;
+    if (mode === 'token') return <TokenBackground uProgression={uProgression} />;
+    return <Cinema position={[-50, -100, 220]} rotation-x={Math.PI / 1} rotation-z={Math.PI} />;
+  };
 
   return (
     <group {...props}>
-      {/* Controls no longer remount — limits updated dynamically */}
+      {/* Controls */}
       <OrbitControls ref={controlsRef} enablePan={false} />
 
-      {/* LIGHTS */}
+      {/* Lights / Env */}
       <Environment preset="sunset" />
       <pointLight position={[12, 5, 12]} intensity={1.2} decay={0.8} distance={100} color="white" />
       <directionalLight position={[-15, 5, -15]} intensity={1.2} color="skyblue" />
 
-      {/* SCENES — instant switch during hold, covered by transition */}
-      {mode === 'cards' ? (
-        isMobile ? (
-          <CardsMobile />
-        ) : (
-          <Cards />
-        )
-      ) : (
-        <TokenBackground uProgression={uProgression} />
-      )}
+      {/* Scene block (swapped during hold) */}
+      {renderScene()}
 
-      {/* Global background stays */}
-      <Background />
+      {/* Global background */}
+      {mode !== 'cinema' && <Background />}
 
-      {/* Transition overlay */}
+      {/* Spiral transition overlay */}
       <ScreenTransition uProgression={uProgression} />
 
-      {/* Switcher UI — centered, 20% from bottom */}
+      {/* Mode Switcher */}
       <Html position-y={-180}>
         <div
           style={{
@@ -255,30 +258,28 @@ export const Experience = ({ ...props }) => {
             transform: 'translateX(-50%)',
             pointerEvents: 'auto',
           }}>
-          <div className="flex items-center ">
+          <div className="flex items-center">
             <button
               onClick={() => handleSetMode('cards')}
               className={`px-4 py-2 text-xl text-outline-soft font-sp transition ${
-                mode === 'cards' ? 'text-yellow-300' : 'text-white  hover:text-yellow-300'
+                mode === 'cards' ? 'text-yellow-300' : 'text-white hover:text-yellow-300'
               }`}>
               Cards
             </button>
             <button
               onClick={() => handleSetMode('token')}
-              className={`px-4 py-2 text-xl text-outline-soft font-sp rounded-r-full transition ${
-                mode === 'token' ? ' text-yellow-300' : 'text-white  hover:text-yellow-300'
+              className={`px-4 py-2 text-xl text-outline-soft font-sp transition ${
+                mode === 'token' ? 'text-yellow-300' : 'text-white hover:text-yellow-300'
               }`}>
               Token
             </button>
-            <a
-              href="https://manifold.xyz/@ignatev_ink/id/4133746928"
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`px-4 py-2 text-lg text-outline-soft font-sp rounded-r-full transition ${
-                mode === 'token' ? 'text-yellow-300' : 'text-white hover:text-yellow-300'
+            <button
+              onClick={() => handleSetMode('cinema')}
+              className={`px-4 py-2 text-xl text-outline-soft font-sp transition ${
+                mode === 'cinema' ? 'text-yellow-300' : 'text-white hover:text-yellow-300'
               }`}>
               EPISODE1
-            </a>
+            </button>
           </div>
         </div>
       </Html>
