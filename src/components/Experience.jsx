@@ -278,7 +278,7 @@ export const Experience = ({ ...props }) => {
               className={`px-4 py-2 text-xl text-outline-soft font-sp transition ${
                 mode === 'cinema' ? 'text-yellow-300' : 'text-white hover:text-yellow-300'
               }`}>
-              EPISODE1
+              Cinema
             </button>
           </div>
         </div>
