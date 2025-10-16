@@ -81,7 +81,7 @@ function VideoScreen({ src = '/movie.mp4', width = 10, aspect = 16 / 9, ...props
 
       <Html
         scale={80}
-        position={[50, -250, 30]}
+        position={[60, -260, 50]}
         rotation-x={-Math.PI / 2}
         rotation-z={Math.PI}
         occlude
